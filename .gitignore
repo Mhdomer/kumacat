@@ -4,5 +4,5 @@
 *.bak
 .DS_Store
 
-# QuickShell cache
-.cache/
+# User local configuration
+settings.json
