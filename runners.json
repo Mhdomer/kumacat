@@ -1,0 +1,546 @@
+{
+  "count": 44,
+  "runners": [
+    {
+      "id": "beagle",
+      "displayName": "Beagle",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 9,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal",
+        "dog"
+      ]
+    },
+    {
+      "id": "bird",
+      "displayName": "Bird",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 5,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "border-collie",
+      "displayName": "Border Collie",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 8,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal",
+        "dog"
+      ]
+    },
+    {
+      "id": "cat-tail",
+      "displayName": "Cat's Tail",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 8,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "chicken",
+      "displayName": "Chicken",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 5,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "chihuahua",
+      "displayName": "Chihuahua",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 6,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal",
+        "dog"
+      ]
+    },
+    {
+      "id": "classic-cat",
+      "displayName": "Classic Cat",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 5,
+      "hasSleep": true,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "cow-abduction",
+      "displayName": "Cow Abduction",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 14,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "dachshund",
+      "displayName": "Dachshund",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 9,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal",
+        "dog"
+      ]
+    },
+    {
+      "id": "deer",
+      "displayName": "Deer",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 9,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "dinosaur",
+      "displayName": "Dinosaur",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 7,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "dojo-panda",
+      "displayName": "Dojo Panda",
+      "author": "IshankChoudhary (IshankChoudhary)",
+      "type": "color",
+      "frameCount": 12,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal",
+        "fitness"
+      ]
+    },
+    {
+      "id": "dolphin",
+      "displayName": "Dolphin",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 9,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "dots",
+      "displayName": "Dots",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 10,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "object"
+      ]
+    },
+    {
+      "id": "double-crank",
+      "displayName": "Double Crank",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 15,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "object",
+        "mechanism"
+      ]
+    },
+    {
+      "id": "escapement",
+      "displayName": "Escapement",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 24,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "object",
+        "mechanism"
+      ]
+    },
+    {
+      "id": "fishman",
+      "displayName": "Fishman",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 5,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "flash-cat",
+      "displayName": "Flash Cat",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "color",
+      "frameCount": 5,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "fox",
+      "displayName": "Fox",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 8,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "frog",
+      "displayName": "Frog",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 5,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "golden-retriever",
+      "displayName": "Golden Retriever",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 8,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal",
+        "dog"
+      ]
+    },
+    {
+      "id": "greyhound",
+      "displayName": "Greyhound",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 8,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal",
+        "dog"
+      ]
+    },
+    {
+      "id": "hecken-link",
+      "displayName": "Hecken Link",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 15,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "object",
+        "mechanism"
+      ]
+    },
+    {
+      "id": "horse",
+      "displayName": "Horse",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 6,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "icosahedron",
+      "displayName": "Icosahedron",
+      "author": "sean (ksssssw)",
+      "type": "monochrome",
+      "frameCount": 12,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "object"
+      ]
+    },
+    {
+      "id": "jack-russell-terrier",
+      "displayName": "Jack Russell Terrier",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 7,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal",
+        "dog"
+      ]
+    },
+    {
+      "id": "lift-bro",
+      "displayName": "Lift Bro",
+      "author": "KentaroxKondo",
+      "type": "monochrome",
+      "frameCount": 8,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "fitness"
+      ]
+    },
+    {
+      "id": "light-stick-dance",
+      "displayName": "Light Stick Dance",
+      "author": "Lee Hyun Woo (cbnuleehyunwoo)",
+      "type": "color",
+      "frameCount": 18,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": []
+    },
+    {
+      "id": "otter",
+      "displayName": "Otter",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 8,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "pixel-cat",
+      "displayName": "Pixel Cat (Smooth)",
+      "author": "Roy C. Davies (reality2-roycdavies)",
+      "type": "monochrome",
+      "frameCount": 10,
+      "hasSleep": true,
+      "hasPreview": true,
+      "tags": [
+        "animal",
+        "smooth",
+        "sleep-ready"
+      ]
+    },
+    {
+      "id": "rabbit",
+      "displayName": "Rabbit",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 5,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "record-player",
+      "displayName": "Record Player",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 5,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "object"
+      ]
+    },
+    {
+      "id": "rubber-duck",
+      "displayName": "Rubber Duck",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 6,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "object"
+      ]
+    },
+    {
+      "id": "shiba-inu",
+      "displayName": "Shiba Inu",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 8,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal",
+        "dog"
+      ]
+    },
+    {
+      "id": "spinning-bonfire",
+      "displayName": "Spinning Bonfire",
+      "author": "kujira-wak",
+      "type": "color",
+      "frameCount": 10,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "object"
+      ]
+    },
+    {
+      "id": "squirrel",
+      "displayName": "Squirrel",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 5,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "swift-bird",
+      "displayName": "Swift Bird",
+      "author": "Ryan Token (ryan-token)",
+      "type": "monochrome",
+      "frameCount": 8,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "toy-poodle",
+      "displayName": "Toy Poodle",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 8,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal",
+        "dog"
+      ]
+    },
+    {
+      "id": "turtle",
+      "displayName": "Turtle",
+      "author": "Sangyoon (Sangyoon98)",
+      "type": "monochrome",
+      "frameCount": 8,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "uhooi",
+      "displayName": "Uhooi",
+      "author": "Mao Kawaguchi (uhooi)",
+      "type": "color",
+      "frameCount": 10,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal"
+      ]
+    },
+    {
+      "id": "wall-breaker",
+      "displayName": "Wall Breaker",
+      "author": "\u603b\u94bb\u98ce (custsly)",
+      "type": "color",
+      "frameCount": 16,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": []
+    },
+    {
+      "id": "wankel-engine",
+      "displayName": "Wankel Engine",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 10,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "object",
+        "mechanism"
+      ]
+    },
+    {
+      "id": "welsh-corgi",
+      "displayName": "Welsh Corgi",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 7,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "animal",
+        "dog"
+      ]
+    },
+    {
+      "id": "wind-chime",
+      "displayName": "Wind Chime",
+      "author": "Takuto Nakamura (Kyome22)",
+      "type": "monochrome",
+      "frameCount": 8,
+      "hasSleep": false,
+      "hasPreview": true,
+      "tags": [
+        "object"
+      ]
+    }
+  ]
+}

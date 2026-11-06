@@ -1,0 +1,41 @@
+{
+  "id": "noctacat",
+  "name": "NoctaCat",
+  "version": "1.0.0",
+  "minNoctaliaVersion": "3.6.0",
+  "author": "Mohamed Makhlouf",
+  "description": "Ultra-lightweight, hardware-accelerated animated runner for Noctalia bar with sleep mode, multi-sensor metrics, and 40+ runner templates.",
+  "license": "MIT",
+  "repository": "https://github.com/Mhdomer/noctacat",
+  "tags": [
+    "Bar",
+    "Hardware",
+    "System",
+    "Fun",
+    "Panel"
+  ],
+  "entryPoints": {
+    "main": "Main.qml",
+    "barWidget": "BarWidget.qml",
+    "panel": "Panel.qml",
+    "settings": "Settings.qml"
+  },
+  "dependencies": {
+    "plugins": []
+  },
+  "metadata": {
+    "defaultSettings": {
+      "runner": "pixel-cat",
+      "driveMetric": "cpu",
+      "sleepEnabled": true,
+      "sleepThreshold": 5.0,
+      "turboThreshold": 85.0,
+      "catColor": "default",
+      "catScale": 1.0,
+      "catOffsetY": 0.0,
+      "showBadge": false,
+      "speedMultiplier": 1.0,
+      "audioReactive": false
+    }
+  }
+}

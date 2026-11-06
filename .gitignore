@@ -1,0 +1,8 @@
+# Temporary files
+*~
+*.swp
+*.bak
+.DS_Store
+
+# QuickShell cache
+.cache/
