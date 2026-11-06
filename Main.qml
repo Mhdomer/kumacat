@@ -10,17 +10,17 @@ Item {
 
     property var pluginApi: null
 
-    readonly property string runner: pluginApi?.pluginSettings?.runner ?? "pixel-cat"
-    readonly property string driveMetric: pluginApi?.pluginSettings?.driveMetric ?? "cpu"
-    readonly property string catColor: pluginApi?.pluginSettings?.catColor ?? "default"
-    readonly property real catScale: pluginApi?.pluginSettings?.catScale ?? 1.0
-    readonly property real catOffsetY: pluginApi?.pluginSettings?.catOffsetY ?? 0.0
-    readonly property bool showBadge: pluginApi?.pluginSettings?.showBadge ?? false
-    readonly property real speedMultiplier: pluginApi?.pluginSettings?.speedMultiplier ?? 1.0
-    readonly property bool sleepEnabled: pluginApi?.pluginSettings?.sleepEnabled ?? true
-    readonly property real sleepThreshold: pluginApi?.pluginSettings?.sleepThreshold ?? 5.0
-    readonly property real turboThreshold: pluginApi?.pluginSettings?.turboThreshold ?? 85.0
-    readonly property bool audioReactive: pluginApi?.pluginSettings?.audioReactive ?? false
+    readonly property string runner: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.runner) ? pluginApi.pluginSettings.runner : "pixel-cat"
+    readonly property string driveMetric: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.driveMetric) ? pluginApi.pluginSettings.driveMetric : "cpu"
+    readonly property string catColor: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.catColor) ? pluginApi.pluginSettings.catColor : "default"
+    readonly property real catScale: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.catScale !== undefined) ? pluginApi.pluginSettings.catScale : 1.0
+    readonly property real catOffsetY: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.catOffsetY !== undefined) ? pluginApi.pluginSettings.catOffsetY : 0.0
+    readonly property bool showBadge: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.showBadge !== undefined) ? pluginApi.pluginSettings.showBadge : false
+    readonly property real speedMultiplier: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.speedMultiplier !== undefined) ? pluginApi.pluginSettings.speedMultiplier : 1.0
+    readonly property bool sleepEnabled: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.sleepEnabled !== undefined) ? pluginApi.pluginSettings.sleepEnabled : true
+    readonly property real sleepThreshold: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.sleepThreshold !== undefined) ? pluginApi.pluginSettings.sleepThreshold : 5.0
+    readonly property real turboThreshold: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.turboThreshold !== undefined) ? pluginApi.pluginSettings.turboThreshold : 85.0
+    readonly property bool audioReactive: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.audioReactive !== undefined) ? pluginApi.pluginSettings.audioReactive : false
 
     property bool paused: false
     property int currentFrame: 0

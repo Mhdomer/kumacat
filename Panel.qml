@@ -13,7 +13,7 @@ Item {
     property var pluginApi: null
     readonly property var geometryPlaceholder: panelContainer
     readonly property bool allowAttach: true
-    readonly property var mainInstance: pluginApi?.mainInstance
+    readonly property var mainInstance: pluginApi ? pluginApi.mainInstance : null
 
     property bool panelReady: true
     property real contentPreferredWidth: 380 * Style.uiScaleRatio
@@ -70,7 +70,7 @@ Item {
                         width: 48 * Style.uiScaleRatio
                         height: 36 * Style.uiScaleRatio
                         fillMode: Image.PreserveAspectFit
-                        source: pluginApi ? pluginApi.pluginDir + "/runners/" + (mainInstance?.runner ?? "pixel-cat") + "/preview.png" : ""
+                        source: pluginApi ? pluginApi.pluginDir + "/runners/" + (mainInstance ? mainInstance.runner : "pixel-cat") + "/preview.png" : ""
                         cache: true
                     }
 
@@ -79,7 +79,7 @@ Item {
                         spacing: 2
 
                         Text {
-                            text: mainInstance?.runnerDisplayName ?? "NoctaCat"
+                            text: mainInstance ? mainInstance.runnerDisplayName : "NoctaCat"
                             font.pointSize: Style.fontSizeL
                             font.bold: true
                             color: Color.mOnSurface
@@ -88,7 +88,7 @@ Item {
                         }
 
                         Text {
-                            text: "Designed by: " + (mainInstance?.runnerAuthor ?? "Takuto Nakamura")
+                            text: "Designed by: " + (mainInstance ? mainInstance.runnerAuthor : "Takuto Nakamura")
                             font.pointSize: Style.fontSizeXS
                             color: Color.mPrimary
                             elide: Text.ElideRight
@@ -98,17 +98,17 @@ Item {
 
                     Rectangle {
                         radius: Style.radiusM
-                        color: mainInstance?.isSleeping ? Color.alpha(Color.mSecondary, 0.2) : (mainInstance?.isTurbo ? Color.alpha(Color.mError, 0.2) : Color.alpha(Color.mPrimary, 0.2))
+                        color: (mainInstance && mainInstance.isSleeping) ? Color.alpha(Color.mSecondary, 0.2) : ((mainInstance && mainInstance.isTurbo) ? Color.alpha(Color.mError, 0.2) : Color.alpha(Color.mPrimary, 0.2))
                         height: 26 * Style.uiScaleRatio
                         width: statusText.implicitWidth + Style.marginM * 2
 
                         Text {
                             id: statusText
                             anchors.centerIn: parent
-                            text: mainInstance?.paused ? "Paused" : (mainInstance?.isSleeping ? "Sleeping" : (mainInstance?.isTurbo ? "Turbo" : "Running"))
+                            text: mainInstance ? (mainInstance.paused ? "Paused" : (mainInstance.isSleeping ? "Sleeping" : (mainInstance.isTurbo ? "Turbo" : "Running"))) : "Running"
                             font.pointSize: Style.fontSizeXS
                             font.bold: true
-                            color: mainInstance?.isSleeping ? Color.mSecondary : (mainInstance?.isTurbo ? Color.mError : Color.mPrimary)
+                            color: (mainInstance && mainInstance.isSleeping) ? Color.mSecondary : ((mainInstance && mainInstance.isTurbo) ? Color.mError : Color.mPrimary)
                         }
                     }
                 }
@@ -233,13 +233,13 @@ Item {
                     delegate: NButton {
                         required property var modelData
                         text: modelData.name
-                        highlighted: (mainInstance?.runner === modelData.id)
+                        highlighted: Boolean(mainInstance && mainInstance.runner === modelData.id)
                         Layout.fillWidth: true
                         onClicked: {
                             if (pluginApi) {
                                 pluginApi.pluginSettings.runner = modelData.id;
                                 pluginApi.saveSettings();
-                                mainInstance.updateRunnerMeta(modelData.id);
+                                if (mainInstance) mainInstance.updateRunnerMeta(modelData.id);
                             }
                         }
                     }
@@ -254,8 +254,8 @@ Item {
                 spacing: Style.marginM
 
                 NButton {
-                    text: (mainInstance?.paused ?? false) ? "Resume" : "Pause / Nap"
-                    icon: (mainInstance?.paused ?? false) ? "player-play" : "player-pause"
+                    text: (mainInstance && mainInstance.paused) ? "Resume" : "Pause / Nap"
+                    icon: (mainInstance && mainInstance.paused) ? "player-play" : "player-pause"
                     Layout.fillWidth: true
                     onClicked: {
                         if (mainInstance) mainInstance.paused = !mainInstance.paused;

@@ -16,18 +16,18 @@ Item {
     property int sectionWidgetIndex: -1
     property int sectionWidgetsCount: 0
 
-    readonly property var mainInstance: pluginApi?.mainInstance
-    readonly property string screenName: screen?.name ?? ""
+    readonly property var mainInstance: pluginApi ? pluginApi.mainInstance : null
+    readonly property string screenName: screen ? screen.name : ""
     readonly property string resolvedBarPosition: Settings.getBarPositionForScreen(screenName)
     readonly property bool isBarVertical: resolvedBarPosition === "left" || resolvedBarPosition === "right"
     readonly property real capsuleHeight: Style.getCapsuleHeightForScreen(screenName)
 
-    readonly property bool isSleeping: mainInstance?.isSleeping ?? false
-    readonly property bool isPaused: mainInstance?.paused ?? false
-    readonly property bool isTurbo: mainInstance?.isTurbo ?? false
-    readonly property bool showBadge: mainInstance?.showBadge ?? false
-    readonly property real catScale: mainInstance?.catScale ?? 1.0
-    readonly property real catOffsetY: mainInstance?.catOffsetY ?? 0.0
+    readonly property bool isSleeping: mainInstance ? mainInstance.isSleeping : false
+    readonly property bool isPaused: mainInstance ? mainInstance.paused : false
+    readonly property bool isTurbo: mainInstance ? mainInstance.isTurbo : false
+    readonly property bool showBadge: mainInstance ? mainInstance.showBadge : false
+    readonly property real catScale: mainInstance ? mainInstance.catScale : 1.0
+    readonly property real catOffsetY: mainInstance ? mainInstance.catOffsetY : 0.0
 
     readonly property color resolvedCatColor: {
         if (!mainInstance) return Color.mOnSurface;
@@ -91,7 +91,7 @@ Item {
                     asynchronous: false
                     source: root.currentSpriteSource
 
-                    layer.enabled: (mainInstance?.runnerType === "monochrome")
+                    layer.enabled: Boolean(mainInstance && mainInstance.runnerType === "monochrome")
                     layer.effect: MultiEffect {
                         colorization: 1.0
                         colorizationColor: root.resolvedCatColor

@@ -13,17 +13,17 @@ ColumnLayout {
 
     property var pluginApi: null
 
-    property string editRunner: pluginApi?.pluginSettings?.runner ?? "pixel-cat"
-    property string editDriveMetric: pluginApi?.pluginSettings?.driveMetric ?? "cpu"
-    property string editCatColor: pluginApi?.pluginSettings?.catColor ?? "default"
-    property real editCatScale: pluginApi?.pluginSettings?.catScale ?? 1.0
-    property real editCatOffsetY: pluginApi?.pluginSettings?.catOffsetY ?? 0.0
-    property bool editShowBadge: pluginApi?.pluginSettings?.showBadge ?? false
-    property real editSpeedMultiplier: pluginApi?.pluginSettings?.speedMultiplier ?? 1.0
-    property bool editSleepEnabled: pluginApi?.pluginSettings?.sleepEnabled ?? true
-    property real editSleepThreshold: pluginApi?.pluginSettings?.sleepThreshold ?? 5.0
-    property real editTurboThreshold: pluginApi?.pluginSettings?.turboThreshold ?? 85.0
-    property bool editAudioReactive: pluginApi?.pluginSettings?.audioReactive ?? false
+    property string editRunner: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.runner) ? pluginApi.pluginSettings.runner : "pixel-cat"
+    property string editDriveMetric: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.driveMetric) ? pluginApi.pluginSettings.driveMetric : "cpu"
+    property string editCatColor: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.catColor) ? pluginApi.pluginSettings.catColor : "default"
+    property real editCatScale: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.catScale !== undefined) ? pluginApi.pluginSettings.catScale : 1.0
+    property real editCatOffsetY: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.catOffsetY !== undefined) ? pluginApi.pluginSettings.catOffsetY : 0.0
+    property bool editShowBadge: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.showBadge !== undefined) ? pluginApi.pluginSettings.showBadge : false
+    property real editSpeedMultiplier: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.speedMultiplier !== undefined) ? pluginApi.pluginSettings.speedMultiplier : 1.0
+    property bool editSleepEnabled: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.sleepEnabled !== undefined) ? pluginApi.pluginSettings.sleepEnabled : true
+    property real editSleepThreshold: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.sleepThreshold !== undefined) ? pluginApi.pluginSettings.sleepThreshold : 5.0
+    property real editTurboThreshold: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.turboThreshold !== undefined) ? pluginApi.pluginSettings.turboThreshold : 85.0
+    property bool editAudioReactive: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.audioReactive !== undefined) ? pluginApi.pluginSettings.audioReactive : false
 
     property var runnersList: []
 
@@ -76,7 +76,7 @@ ColumnLayout {
                 onSelected: key => {
                     root.editRunner = key;
                     root.saveSettings();
-                    if (pluginApi?.mainInstance) {
+                    if (pluginApi && pluginApi.mainInstance) {
                         pluginApi.mainInstance.updateRunnerMeta(key);
                     }
                 }
