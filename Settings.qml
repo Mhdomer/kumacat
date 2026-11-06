@@ -27,13 +27,14 @@ ColumnLayout {
 
     property var runnersList: []
 
-    function loadRunners() {
-        if (!pluginApi) return;
-        const jsonPath = pluginApi.pluginDir + "/runners.json";
-        var proc = Qt.createQmlObject('import Quickshell.Io; Process { command: ["cat", "' + jsonPath + '"] }', root, "JsonProc_" + Date.now());
-        proc.stdout.connect(function(data) {
+    FileView {
+        id: runnersJsonView
+        path: pluginApi ? (pluginApi.pluginDir + "/runners.json") : ""
+        printErrors: false
+        watchChanges: false
+        onLoaded: {
             try {
-                const parsed = JSON.parse(data.trim());
+                const parsed = JSON.parse(text());
                 const model = [];
                 for (let i = 0; i < parsed.runners.length; i++) {
                     const r = parsed.runners[i];
@@ -45,11 +46,8 @@ ColumnLayout {
                 }
                 root.runnersList = model;
             } catch(e) {}
-        });
-        proc.running = true;
+        }
     }
-
-    Component.onCompleted: loadRunners()
 
     // 1. Runner Pack Selection & Preview Box
     NBox {
@@ -77,7 +75,7 @@ ColumnLayout {
                     root.editRunner = key;
                     root.saveSettings();
                     if (pluginApi && pluginApi.mainInstance) {
-                        pluginApi.mainInstance.updateRunnerMeta(key);
+                        pluginApi.mainInstance.applyRunnerMeta(key);
                     }
                 }
             }

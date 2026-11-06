@@ -21,23 +21,34 @@ Item {
 
     property var topProcesses: []
 
-    function refreshTopProcesses() {
-        var proc = Qt.createQmlObject('import Quickshell.Io; Process { command: ["sh", "-c", "ps -eo comm,%cpu --sort=-%cpu | sed 1d | head -n 3"] }', root, "PsProc_" + Date.now());
-        proc.stdout.connect(function(data) {
-            const lines = data.trim().split("\n");
-            const procs = [];
-            for (let i = 0; i < lines.length; i++) {
-                const parts = lines[i].trim().split(/\s+/);
-                if (parts.length >= 2) {
-                    procs.push({
-                        name: parts[0],
-                        cpu: parts[1] + "%"
-                    });
+    Process {
+        id: psProc
+        command: ["sh", "-c", "ps -eo comm,%cpu --sort=-%cpu | sed 1d | head -n 3"]
+        running: false
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const lines = this.text.trim().split("\n");
+                const procs = [];
+                for (let i = 0; i < lines.length; i++) {
+                    const parts = lines[i].trim().split(/\s+/);
+                    if (parts.length >= 2) {
+                        procs.push({
+                            name: parts[0],
+                            cpu: parts[1] + "%"
+                        });
+                    }
                 }
+                root.topProcesses = procs;
+                psProc.running = false;
             }
-            root.topProcesses = procs;
-        });
-        proc.running = true;
+        }
+    }
+
+    function refreshTopProcesses() {
+        if (!psProc.running) {
+            psProc.running = true;
+        }
     }
 
     Component.onCompleted: refreshTopProcesses()
@@ -239,7 +250,7 @@ Item {
                             if (pluginApi) {
                                 pluginApi.pluginSettings.runner = modelData.id;
                                 pluginApi.saveSettings();
-                                if (mainInstance) mainInstance.updateRunnerMeta(modelData.id);
+                                if (mainInstance) mainInstance.applyRunnerMeta(modelData.id);
                             }
                         }
                     }

@@ -27,8 +27,10 @@ Item {
     property int frameCount: 10
     property bool hasSleepFrame: true
     property string runnerType: "monochrome"
-    property string runnerAuthor: "Roy C. Davies"
+    property string runnerAuthor: "Roy C. Davies (reality2-roycdavies)"
     property string runnerDisplayName: "Pixel Cat (Smooth)"
+
+    property var runnersMap: ({})
 
     property bool isSleeping: false
     property bool isTurbo: false
@@ -109,37 +111,36 @@ Item {
         }
     }
 
-    function updateRunnerMeta(runnerId) {
-        if (!pluginApi) return;
-        const metaPath = pluginApi.pluginDir + "/runners/" + runnerId + "/metadata.json";
-        var proc = Qt.createQmlObject('import Quickshell.Io; Process { command: ["cat", "' + metaPath + '"] }', root, "MetaProc_" + Date.now());
-        proc.stdout.connect(function(data) {
+    FileView {
+        id: runnersManifestView
+        path: pluginApi ? (pluginApi.pluginDir + "/runners.json") : ""
+        printErrors: false
+        watchChanges: false
+        onLoaded: {
             try {
-                const parsed = JSON.parse(data.trim());
-                root.runnerAuthor = parsed.author || "Unknown";
-                root.runnerDisplayName = parsed.displayName || runnerId;
-                root.runnerType = parsed.type || "monochrome";
+                const parsed = JSON.parse(text());
+                const map = {};
+                for (let i = 0; i < parsed.runners.length; i++) {
+                    map[parsed.runners[i].id] = parsed.runners[i];
+                }
+                root.runnersMap = map;
+                root.applyRunnerMeta(root.runner);
             } catch(e) {}
-        });
-        proc.running = true;
-
-        var countProc = Qt.createQmlObject('import Quickshell.Io; Process { command: ["sh", "-c", "ls -1 ' + pluginApi.pluginDir + '/runners/' + runnerId + '/frame-*.png | wc -l; test -f ' + pluginApi.pluginDir + '/runners/' + runnerId + '/sleep.png && echo 1 || echo 0"] }', root, "CountProc_" + Date.now());
-        countProc.stdout.connect(function(data) {
-            const lines = data.trim().split("\n");
-            const count = parseInt(lines[0], 10);
-            if (!isNaN(count) && count > 0) {
-                root.frameCount = count;
-                root.currentFrame = 0;
-            }
-            if (lines.length > 1) {
-                root.hasSleepFrame = (lines[1].trim() === "1");
-            }
-        });
-        countProc.running = true;
+        }
     }
 
-    onRunnerChanged: updateRunnerMeta(runner)
-    Component.onCompleted: updateRunnerMeta(runner)
+    function applyRunnerMeta(runnerId) {
+        if (!runnersMap[runnerId]) return;
+        const r = runnersMap[runnerId];
+        root.runnerAuthor = r.author || "Unknown";
+        root.runnerDisplayName = r.displayName || runnerId;
+        root.runnerType = r.type || "monochrome";
+        root.frameCount = r.frameCount || 5;
+        root.hasSleepFrame = Boolean(r.hasSleep);
+        root.currentFrame = 0;
+    }
+
+    onRunnerChanged: applyRunnerMeta(runner)
 
     IpcHandler {
         target: "plugin:noctacat"
@@ -147,10 +148,11 @@ Item {
         function pause() { root.paused = true; }
         function resume() { root.paused = false; }
         function toggle() { root.paused = !root.paused; }
-        function setRunner(name) {
+        function setRunner(name: string) {
             if (pluginApi) {
                 pluginApi.pluginSettings.runner = name;
                 pluginApi.saveSettings();
+                root.applyRunnerMeta(name);
             }
         }
     }
