@@ -260,7 +260,7 @@ Item {
                             NText {
                                 text: (modelData && modelData.pid) ? modelData.pid : ""
                                 pointSize: Style.fontSizeXS
-                                family: Style.fontFamilyMonospace
+                                family: Settings.data?.ui?.fontFixed ?? "monospace"
                                 color: Color.mOnSurfaceVariant
                                 Layout.preferredWidth: 44 * Style.uiScaleRatio
                             }
@@ -268,7 +268,7 @@ Item {
                             NText {
                                 text: (modelData && modelData.name) ? modelData.name : ""
                                 pointSize: Style.fontSizeS
-                                family: Style.fontFamilyMonospace
+                                family: Settings.data?.ui?.fontFixed ?? "monospace"
                                 color: Color.mOnSurface
                                 Layout.fillWidth: true
                                 elide: Text.ElideRight
@@ -277,7 +277,7 @@ Item {
                             NText {
                                 text: (modelData && modelData.cpu) ? modelData.cpu : ""
                                 pointSize: Style.fontSizeS
-                                family: Style.fontFamilyMonospace
+                                family: Settings.data?.ui?.fontFixed ?? "monospace"
                                 font.bold: true
                                 color: Color.mPrimary
                             }
