@@ -1,12 +1,12 @@
 {
-  "name": "NoctaCat",
+  "name": "KumaCat",
   "description": "Ultra-lightweight, hardware-accelerated animated runner for Noctalia bar with sleep mode, multi-sensor metrics, and 40+ runner templates.",
   "widget": {
-    "tooltip": "NoctaCat",
+    "tooltip": "KumaCat",
     "sleepParticle": "z"
   },
   "panel": {
-    "title": "NoctaCat Telemetry & HUD",
+    "title": "KumaCat Telemetry & HUD",
     "designedBy": "Designed by",
     "statusPaused": "Paused",
     "statusSleeping": "Sleeping",
@@ -95,9 +95,9 @@
     }
   },
   "contextMenu": {
-    "pet": "Pet NoctaCat ♥",
+    "pet": "Pet KumaCat ♥",
     "pause": "Pause / Nap",
-    "resume": "Resume NoctaCat",
+    "resume": "Resume KumaCat",
     "settings": "Widget Settings"
   }
 }

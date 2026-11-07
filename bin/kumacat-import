@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CLI utility to import custom GIFs, spritesheets, or animations into NoctaCat."""
+"""CLI utility to import custom GIFs, spritesheets, or animations into KumaCat."""
 
 import argparse
 import json
@@ -149,7 +149,7 @@ def import_runner(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Import custom GIF, webp, or video animations into NoctaCat."
+        description="Import custom GIF, webp, or video animations into KumaCat."
     )
     parser.add_argument("input", type=Path, help="Path to GIF, sprite, or video file")
     parser.add_argument("--id", type=str, required=True, help="Unique runner ID (e.g. nyan-cat)")

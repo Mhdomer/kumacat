@@ -141,7 +141,7 @@ Item {
                         spacing: Style.marginXXS
 
                         NText {
-                            text: mainInstance ? mainInstance.runnerDisplayName : "NoctaCat"
+                            text: mainInstance ? mainInstance.runnerDisplayName : "KumaCat"
                             pointSize: Style.fontSizeL
                             font.bold: true
                             color: Color.mOnSurface
@@ -421,7 +421,7 @@ Item {
                         if (pluginApi && targetScreen) {
                             BarService.openPluginSettings(targetScreen, pluginApi.manifest);
                         } else {
-                            Quickshell.execDetached(["qs", "-c", "noctalia-shell", "ipc", "call", "plugin", "openSettings", "noctacat"]);
+                            Quickshell.execDetached(["qs", "-c", "noctalia-shell", "ipc", "call", "plugin", "openSettings", "kumacat"]);
                         }
                     }
                 }

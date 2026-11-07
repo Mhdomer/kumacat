@@ -1,12 +1,12 @@
 {
-  "name": "NoctaCat",
+  "name": "KumaCat",
   "description": "Ultraleichter, hardwarebeschleunigter animierter Läufer für die Noctalia-Leiste mit Schlafmodus, Multisensormetriken und 40+ Läufer-Vorlagen.",
   "widget": {
-    "tooltip": "NoctaCat",
+    "tooltip": "KumaCat",
     "sleepParticle": "z"
   },
   "panel": {
-    "title": "NoctaCat Telemetrie & HUD",
+    "title": "KumaCat Telemetrie & HUD",
     "designedBy": "Entworfen von",
     "statusPaused": "Pausiert",
     "statusSleeping": "Schläft",
@@ -95,9 +95,9 @@
     }
   },
   "contextMenu": {
-    "pet": "NoctaCat streicheln ♥",
+    "pet": "KumaCat streicheln ♥",
     "pause": "Pause / Schlafen",
-    "resume": "NoctaCat fortsetzen",
+    "resume": "KumaCat fortsetzen",
     "settings": "Widget-Einstellungen"
   }
 }

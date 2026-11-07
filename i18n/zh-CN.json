@@ -1,12 +1,12 @@
 {
-  "name": "NoctaCat",
+  "name": "KumaCat",
   "description": "极轻量、硬件加速的 Noctalia 状态栏动态运行动画插件，支持空闲休眠、多硬件传感器与40+款精美模板。",
   "widget": {
-    "tooltip": "NoctaCat",
+    "tooltip": "KumaCat",
     "sleepParticle": "z"
   },
   "panel": {
-    "title": "NoctaCat 遥测与仪表盘",
+    "title": "KumaCat 遥测与仪表盘",
     "designedBy": "原画设计",
     "statusPaused": "已暂停",
     "statusSleeping": "休眠中",
@@ -95,9 +95,9 @@
     }
   },
   "contextMenu": {
-    "pet": "摸摸 NoctaCat ♥",
+    "pet": "摸摸 KumaCat ♥",
     "pause": "暂停 / 小憩",
-    "resume": "唤醒 NoctaCat",
+    "resume": "唤醒 KumaCat",
     "settings": "插件设置"
   }
 }

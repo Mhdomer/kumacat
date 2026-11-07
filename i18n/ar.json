@@ -1,12 +1,12 @@
 {
-  "name": "NoctaCat",
+  "name": "KumaCat",
   "description": "إضافة ركض متحركة فائقة الخفة ومتسارعة عتادياً لشريط Noctalia مع وضع السكون ومقاييس متعددة وأكثر من 40 قالباً.",
   "widget": {
-    "tooltip": "NoctaCat",
+    "tooltip": "KumaCat",
     "sleepParticle": "z"
   },
   "panel": {
-    "title": "لوحة تحكم وبيانات NoctaCat",
+    "title": "لوحة تحكم وبيانات KumaCat",
     "designedBy": "تصميم",
     "statusPaused": "متوقف مؤقتاً",
     "statusSleeping": "نائم",
@@ -95,9 +95,9 @@
     }
   },
   "contextMenu": {
-    "pet": "مداعبة NoctaCat ♥",
+    "pet": "مداعبة KumaCat ♥",
     "pause": "إيقاف مؤقت / قيلولة",
-    "resume": "استئناف NoctaCat",
+    "resume": "استئناف KumaCat",
     "settings": "إعدادات الإضافة"
   }
 }

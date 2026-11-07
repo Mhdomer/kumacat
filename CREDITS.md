@@ -1,6 +1,6 @@
 # Designer & Community Credits
 
-NoctaCat relies on animations and runners created by talented open-source artists and developers. Every runner maintains its original license and attribution.
+KumaCat relies on animations and runners created by talented open-source artists and developers. Every runner maintains its original license and attribution.
 
 ## Core Inspiration & Original Runners
 * **Takuto Nakamura ([@Kyome22](https://github.com/Kyome22))**

@@ -126,9 +126,9 @@ Item {
                 if (root.turboSeconds === 30) {
                     Quickshell.execDetached([
                         "notify-send",
-                        "-a", "NoctaCat",
+                        "-a", "KumaCat",
                         "-u", "critical",
-                        "NoctaCat: Sustained Turbo Load",
+                        "KumaCat: Sustained Turbo Load",
                         "High load (" + root.currentMetricValue + "%) detected for 30s. Check Process Radar in the HUD."
                     ]);
                 }
@@ -196,7 +196,7 @@ Item {
     onRunnerChanged: applyRunnerMeta(runner)
 
     IpcHandler {
-        target: "plugin:noctacat"
+        target: "plugin:kumacat"
 
         function pause() { root.paused = true; }
         function resume() { root.paused = false; }
