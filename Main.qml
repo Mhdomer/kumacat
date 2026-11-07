@@ -31,6 +31,7 @@ Item {
     property string runnerDisplayName: "Pixel Cat (Smooth)"
 
     property var runnersMap: ({})
+    property var runnersList: []
 
     property bool isSleeping: false
     property bool isTurbo: false
@@ -124,6 +125,7 @@ Item {
                     map[parsed.runners[i].id] = parsed.runners[i];
                 }
                 root.runnersMap = map;
+                root.runnersList = parsed.runners || [];
                 root.applyRunnerMeta(root.runner);
             } catch(e) {}
         }

@@ -26,6 +26,27 @@ Item {
 
     property var runnersList: []
 
+    function loadRunnersFromRaw(rawList) {
+        if (!rawList || !Array.isArray(rawList)) return;
+        const model = [];
+        for (let i = 0; i < rawList.length; i++) {
+            const r = rawList[i];
+            model.push({
+                key: r.id,
+                name: r.displayName + " (by " + r.author + ")",
+                label: r.displayName + " (by " + r.author + ")",
+                raw: r
+            });
+        }
+        root.runnersList = model;
+    }
+
+    Component.onCompleted: {
+        if (pluginApi && pluginApi.mainInstance && pluginApi.mainInstance.runnersList && pluginApi.mainInstance.runnersList.length > 0) {
+            root.loadRunnersFromRaw(pluginApi.mainInstance.runnersList);
+        }
+    }
+
     FileView {
         id: runnersJsonView
         path: pluginApi ? (pluginApi.pluginDir + "/runners.json") : ""
@@ -34,16 +55,7 @@ Item {
         onLoaded: {
             try {
                 const parsed = JSON.parse(text());
-                const model = [];
-                for (let i = 0; i < parsed.runners.length; i++) {
-                    const r = parsed.runners[i];
-                    model.push({
-                        key: r.id,
-                        label: r.displayName + " (by " + r.author + ")",
-                        raw: r
-                    });
-                }
-                root.runnersList = model;
+                root.loadRunnersFromRaw(parsed.runners || []);
             } catch(e) {}
         }
     }
@@ -127,9 +139,9 @@ Item {
             label: "Driving Metric"
             description: "System sensor controlling the runner speed."
             model: [
-                { key: "cpu", label: "CPU Usage (%)" },
-                { key: "mem", label: "RAM Memory Usage (%)" },
-                { key: "temp", label: "CPU Temperature (°C)" }
+                { key: "cpu", name: "CPU Usage (%)", label: "CPU Usage (%)" },
+                { key: "mem", name: "RAM Memory Usage (%)", label: "RAM Memory Usage (%)" },
+                { key: "temp", name: "CPU Temperature (°C)", label: "CPU Temperature (°C)" }
             ]
             currentKey: root.editDriveMetric
             onSelected: key => {
@@ -237,11 +249,11 @@ Item {
             label: "Color Mode"
             description: "White, Primary accent, or Rainbow mode for monochrome runners."
             model: [
-                { key: "default", label: "Pure White (Recommended for dark bar)" },
-                { key: "primary", label: "Primary Theme Accent" },
-                { key: "secondary", label: "Secondary Accent" },
-                { key: "error", label: "Alert / Error Red" },
-                { key: "rainbow", label: "Rainbow Rave Mode" }
+                { key: "default", name: "Pure White (Recommended for dark bar)", label: "Pure White (Recommended for dark bar)" },
+                { key: "primary", name: "Primary Theme Accent", label: "Primary Theme Accent" },
+                { key: "secondary", name: "Secondary Accent", label: "Secondary Accent" },
+                { key: "error", name: "Alert / Error Red", label: "Alert / Error Red" },
+                { key: "rainbow", name: "Rainbow Rave Mode", label: "Rainbow Rave Mode" }
             ]
             currentKey: root.editCatColor
             onSelected: key => {
