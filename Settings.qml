@@ -7,24 +7,27 @@ import qs.Commons
 import qs.Widgets
 import qs.Services.UI
 
-Item {
+ColumnLayout {
     id: root
 
     property var pluginApi: null
 
-    property string editRunner: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.runner) ? pluginApi.pluginSettings.runner : "pixel-cat"
-    property string editDriveMetric: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.driveMetric) ? pluginApi.pluginSettings.driveMetric : "cpu"
-    property string editCatColor: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.catColor) ? pluginApi.pluginSettings.catColor : "default"
-    property real editCatScale: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.catScale !== undefined) ? pluginApi.pluginSettings.catScale : 1.0
-    property real editCatOffsetY: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.catOffsetY !== undefined) ? pluginApi.pluginSettings.catOffsetY : 0.0
-    property bool editShowBadge: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.showBadge !== undefined) ? pluginApi.pluginSettings.showBadge : false
-    property real editSpeedMultiplier: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.speedMultiplier !== undefined) ? pluginApi.pluginSettings.speedMultiplier : 1.0
-    property bool editSleepEnabled: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.sleepEnabled !== undefined) ? pluginApi.pluginSettings.sleepEnabled : true
-    property real editSleepThreshold: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.sleepThreshold !== undefined) ? pluginApi.pluginSettings.sleepThreshold : 5.0
-    property real editTurboThreshold: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.turboThreshold !== undefined) ? pluginApi.pluginSettings.turboThreshold : 85.0
-    property bool editAudioReactive: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.audioReactive !== undefined) ? pluginApi.pluginSettings.audioReactive : false
-    property bool editOnlyPrimaryScreen: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.onlyPrimaryScreen !== undefined) ? pluginApi.pluginSettings.onlyPrimaryScreen : false
-    property bool editEnableOverheatAlert: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.enableOverheatAlert !== undefined) ? pluginApi.pluginSettings.enableOverheatAlert : true
+    property var cfg: (pluginApi && pluginApi.pluginSettings) ? pluginApi.pluginSettings : ({})
+    property var defaults: (pluginApi && pluginApi.manifest && pluginApi.manifest.metadata && pluginApi.manifest.metadata.defaultSettings) ? pluginApi.manifest.metadata.defaultSettings : ({})
+
+    property string editRunner: cfg.runner ?? defaults.runner ?? "pixel-cat"
+    property string editDriveMetric: cfg.driveMetric ?? defaults.driveMetric ?? "cpu"
+    property string editCatColor: cfg.catColor ?? defaults.catColor ?? "default"
+    property real editCatScale: cfg.catScale ?? defaults.catScale ?? 1.0
+    property real editCatOffsetY: cfg.catOffsetY ?? defaults.catOffsetY ?? 0.0
+    property bool editShowBadge: cfg.showBadge ?? defaults.showBadge ?? false
+    property real editSpeedMultiplier: cfg.speedMultiplier ?? defaults.speedMultiplier ?? 1.0
+    property bool editSleepEnabled: cfg.sleepEnabled ?? defaults.sleepEnabled ?? true
+    property real editSleepThreshold: cfg.sleepThreshold ?? defaults.sleepThreshold ?? 5.0
+    property real editTurboThreshold: cfg.turboThreshold ?? defaults.turboThreshold ?? 85.0
+    property bool editAudioReactive: cfg.audioReactive ?? defaults.audioReactive ?? false
+    property bool editOnlyPrimaryScreen: cfg.onlyPrimaryScreen ?? defaults.onlyPrimaryScreen ?? false
+    property bool editEnableOverheatAlert: cfg.enableOverheatAlert ?? defaults.enableOverheatAlert ?? true
 
     property var runnersList: []
 
@@ -35,8 +38,7 @@ Item {
             const r = rawList[i];
             model.push({
                 key: r.id,
-                name: r.displayName + " (by " + r.author + ")",
-                label: r.displayName + " (by " + r.author + ")",
+                name: r.displayName + " (" + r.author + ")",
                 raw: r
             });
         }
@@ -62,264 +64,257 @@ Item {
         }
     }
 
-    implicitWidth: 540 * Style.uiScaleRatio
-    implicitHeight: mainLayout.implicitHeight + Style.marginM * 2
+    spacing: Style.marginM
 
-    ColumnLayout {
-        id: mainLayout
-        width: parent.width
+    // --- 1. RUNNER SELECTION ---
+    NText {
+        text: pluginApi ? pluginApi.tr("settings.sectionRunner") : "Runner Character"
+        pointSize: Style.fontSizeL
+        font.weight: Style.fontWeightBold
+        color: Color.mPrimary
+    }
+
+    NComboBox {
+        label: pluginApi ? pluginApi.tr("settings.activeRunner.label") : "Active Runner"
+        description: pluginApi ? pluginApi.tr("settings.activeRunner.desc") : "Choose an animal, mechanism, or character."
+        model: root.runnersList
+        currentKey: root.editRunner
+        onSelected: key => {
+            root.editRunner = key;
+            root.saveSettings();
+            if (pluginApi && pluginApi.mainInstance) {
+                pluginApi.mainInstance.applyRunnerMeta(key);
+            }
+        }
+    }
+
+    RowLayout {
+        Layout.fillWidth: true
         spacing: Style.marginM
 
-        // --- 1. RUNNER SELECTION ---
-        NText {
-            text: "Runner Character"
-            pointSize: Style.fontSizeL
-            font.weight: Style.fontWeightBold
-            color: Color.mPrimary
+        Image {
+            width: 56 * Style.uiScaleRatio
+            height: 42 * Style.uiScaleRatio
+            fillMode: Image.PreserveAspectFit
+            source: pluginApi ? pluginApi.pluginDir + "/runners/" + root.editRunner + "/preview.png" : ""
+            cache: true
         }
 
-        NComboBox {
-            label: "Active Runner (44 Templates)"
-            description: "Choose an animal, mechanism, or character."
-            model: root.runnersList
-            currentKey: root.editRunner
-            onSelected: key => {
-                root.editRunner = key;
-                root.saveSettings();
-                if (pluginApi && pluginApi.mainInstance) {
-                    pluginApi.mainInstance.applyRunnerMeta(key);
-                }
-            }
-        }
-
-        RowLayout {
+        ColumnLayout {
             Layout.fillWidth: true
-            spacing: Style.marginM
+            spacing: Style.marginXXS
 
-            Image {
-                width: 56 * Style.uiScaleRatio
-                height: 42 * Style.uiScaleRatio
-                fillMode: Image.PreserveAspectFit
-                source: pluginApi ? pluginApi.pluginDir + "/runners/" + root.editRunner + "/preview.png" : ""
-                cache: true
+            NText {
+                text: (pluginApi ? pluginApi.tr("settings.selectedPrefix") : "Selected") + ": " + root.editRunner
+                pointSize: Style.fontSizeM
+                font.weight: Style.fontWeightSemiBold
+                color: Color.mOnSurface
             }
 
-            ColumnLayout {
-                Layout.fillWidth: true
-                spacing: 2
-
-                NText {
-                    text: "Selected: " + root.editRunner
-                    pointSize: Style.fontSizeM
-                    font.weight: Style.fontWeightSemiBold
-                    color: Color.mOnSurface
-                }
-
-                NText {
-                    text: "Community template with full designer attribution in CREDITS.md"
-                    pointSize: Style.fontSizeXS
-                    color: Color.mOnSurfaceVariant
-                }
+            NText {
+                text: pluginApi ? pluginApi.tr("settings.templateAttribution") : "Community template with full designer attribution in CREDITS.md"
+                pointSize: Style.fontSizeXS
+                color: Color.mOnSurfaceVariant
             }
         }
+    }
 
-        NDivider {
-            Layout.fillWidth: true
-            Layout.topMargin: Style.marginS
-            Layout.bottomMargin: Style.marginS
+    NDivider {
+        Layout.fillWidth: true
+        Layout.topMargin: Style.marginS
+        Layout.bottomMargin: Style.marginS
+    }
+
+    // --- 2. METRICS & SENSORS ---
+    NText {
+        text: pluginApi ? pluginApi.tr("settings.sectionSensors") : "Sensors & Reaction"
+        pointSize: Style.fontSizeL
+        font.weight: Style.fontWeightBold
+        color: Color.mPrimary
+    }
+
+    NComboBox {
+        label: pluginApi ? pluginApi.tr("settings.drivingMetric.label") : "Driving Metric"
+        description: pluginApi ? pluginApi.tr("settings.drivingMetric.desc") : "System sensor controlling the runner speed."
+        model: [
+            { key: "cpu", name: pluginApi ? pluginApi.tr("settings.metric.cpu") : "CPU Usage (%)" },
+            { key: "mem", name: pluginApi ? pluginApi.tr("settings.metric.mem") : "RAM Memory Usage (%)" },
+            { key: "temp", name: pluginApi ? pluginApi.tr("settings.metric.temp") : "CPU Temperature (°C)" },
+            { key: "gpu", name: pluginApi ? pluginApi.tr("settings.metric.gpu") : "GPU Load / Activity (%)" },
+            { key: "net", name: pluginApi ? pluginApi.tr("settings.metric.net") : "Network I/O Throughput" }
+        ]
+        currentKey: root.editDriveMetric
+        onSelected: key => {
+            root.editDriveMetric = key;
+            root.saveSettings();
         }
+    }
 
-        // --- 2. METRICS & SENSORS ---
-        NText {
-            text: "Sensors & Reaction"
-            pointSize: Style.fontSizeL
-            font.weight: Style.fontWeightBold
-            color: Color.mPrimary
+    NToggle {
+        Layout.fillWidth: true
+        label: pluginApi ? pluginApi.tr("settings.audioReactive.label") : "Audio-Reactive Speed"
+        description: pluginApi ? pluginApi.tr("settings.audioReactive.desc") : "Cat pulses and speeds up to music beats."
+        checked: root.editAudioReactive
+        onToggled: val => {
+            root.editAudioReactive = val;
+            root.saveSettings();
         }
+    }
 
-        NComboBox {
-            label: "Driving Metric"
-            description: "System sensor controlling the runner speed."
-            model: [
-                { key: "cpu", name: "CPU Usage (%)", label: "CPU Usage (%)" },
-                { key: "mem", name: "RAM Memory Usage (%)", label: "RAM Memory Usage (%)" },
-                { key: "temp", name: "CPU Temperature (°C)", label: "CPU Temperature (°C)" },
-                { key: "gpu", name: "GPU Load / Activity (%)", label: "GPU Load / Activity (%)" },
-                { key: "net", name: "Network I/O Throughput", label: "Network I/O Throughput" }
-            ]
-            currentKey: root.editDriveMetric
-            onSelected: key => {
-                root.editDriveMetric = key;
-                root.saveSettings();
-            }
+    NToggle {
+        Layout.fillWidth: true
+        label: pluginApi ? pluginApi.tr("settings.showBadge.label") : "Show Percentage Badge"
+        description: pluginApi ? pluginApi.tr("settings.showBadge.desc") : "Display load percentage next to the runner."
+        checked: root.editShowBadge
+        onToggled: val => {
+            root.editShowBadge = val;
+            root.saveSettings();
         }
+    }
 
-        NToggle {
-            Layout.fillWidth: true
-            label: "Audio-Reactive Speed"
-            description: "Cat pulses and speeds up to music beats."
-            checked: root.editAudioReactive
-            onToggled: val => {
-                root.editAudioReactive = val;
-                root.saveSettings();
-            }
+    NDivider {
+        Layout.fillWidth: true
+        Layout.topMargin: Style.marginS
+        Layout.bottomMargin: Style.marginS
+    }
+
+    // --- 3. SLEEP & PERFORMANCE ---
+    NText {
+        text: pluginApi ? pluginApi.tr("settings.sectionSleep") : "Idle Sleep & Overheat"
+        pointSize: Style.fontSizeL
+        font.weight: Style.fontWeightBold
+        color: Color.mPrimary
+    }
+
+    NToggle {
+        Layout.fillWidth: true
+        label: pluginApi ? pluginApi.tr("settings.sleepMode.label") : "Enable Sleep Mode"
+        description: pluginApi ? pluginApi.tr("settings.sleepMode.desc") : "Halts animation timer completely (0% CPU) when system is idle."
+        checked: root.editSleepEnabled
+        onToggled: val => {
+            root.editSleepEnabled = val;
+            root.saveSettings();
         }
+    }
 
-        NToggle {
-            Layout.fillWidth: true
-            label: "Show Percentage Badge"
-            description: "Display load percentage (e.g. 28%) next to the runner in the bar."
-            checked: root.editShowBadge
-            onToggled: val => {
-                root.editShowBadge = val;
-                root.saveSettings();
-            }
+    NLabel {
+        label: (pluginApi ? pluginApi.tr("settings.sleepThreshold.label") : "Sleep Threshold") + " (" + Math.round(root.editSleepThreshold) + "%)"
+        description: pluginApi ? pluginApi.tr("settings.sleepThreshold.desc") : "Load level below which the runner rests after 12 seconds."
+    }
+
+    NSlider {
+        Layout.fillWidth: true
+        from: 1.0
+        to: 20.0
+        stepSize: 1.0
+        value: root.editSleepThreshold
+        onValueChanged: {
+            root.editSleepThreshold = Math.round(value);
+            root.saveSettings();
         }
+    }
 
-        NDivider {
-            Layout.fillWidth: true
-            Layout.topMargin: Style.marginS
-            Layout.bottomMargin: Style.marginS
+    NLabel {
+        label: (pluginApi ? pluginApi.tr("settings.turboThreshold.label") : "Turbo / Overheat Threshold") + " (" + Math.round(root.editTurboThreshold) + "%)"
+        description: pluginApi ? pluginApi.tr("settings.turboThreshold.desc") : "Load level that triggers turbo animation."
+    }
+
+    NSlider {
+        Layout.fillWidth: true
+        from: 60.0
+        to: 98.0
+        stepSize: 1.0
+        value: root.editTurboThreshold
+        onValueChanged: {
+            root.editTurboThreshold = Math.round(value);
+            root.saveSettings();
         }
+    }
 
-        // --- 3. SLEEP & PERFORMANCE ---
-        NText {
-            text: "Idle Sleep & Overheat"
-            pointSize: Style.fontSizeL
-            font.weight: Style.fontWeightBold
-            color: Color.mPrimary
+    NToggle {
+        Layout.fillWidth: true
+        label: pluginApi ? pluginApi.tr("settings.turboAlert.label") : "Sustained Turbo Alert"
+        description: pluginApi ? pluginApi.tr("settings.turboAlert.desc") : "Send desktop notification if load stays at turbo threshold for 30s."
+        checked: root.editEnableOverheatAlert
+        onToggled: val => {
+            root.editEnableOverheatAlert = val;
+            root.saveSettings();
         }
+    }
 
-        NToggle {
-            Layout.fillWidth: true
-            label: "Enable Sleep Mode"
-            description: "Halts animation timer completely (0% CPU) when system is idle."
-            checked: root.editSleepEnabled
-            onToggled: val => {
-                root.editSleepEnabled = val;
-                root.saveSettings();
-            }
+    NDivider {
+        Layout.fillWidth: true
+        Layout.topMargin: Style.marginS
+        Layout.bottomMargin: Style.marginS
+    }
+
+    // --- 4. APPEARANCE & SIZING ---
+    NText {
+        text: pluginApi ? pluginApi.tr("settings.sectionAppearance") : "Appearance & Sizing"
+        pointSize: Style.fontSizeL
+        font.weight: Style.fontWeightBold
+        color: Color.mPrimary
+    }
+
+    NComboBox {
+        label: pluginApi ? pluginApi.tr("settings.colorMode.label") : "Color Mode"
+        description: pluginApi ? pluginApi.tr("settings.colorMode.desc") : "White, Primary accent, or Rainbow mode for monochrome runners."
+        model: [
+            { key: "default", name: pluginApi ? pluginApi.tr("settings.color.white") : "Pure White" },
+            { key: "primary", name: pluginApi ? pluginApi.tr("settings.color.primary") : "Primary Theme Accent" },
+            { key: "secondary", name: pluginApi ? pluginApi.tr("settings.color.secondary") : "Secondary Accent" },
+            { key: "error", name: pluginApi ? pluginApi.tr("settings.color.error") : "Alert / Error Red" },
+            { key: "rainbow", name: pluginApi ? pluginApi.tr("settings.color.rainbow") : "Rainbow Rave Mode" }
+        ]
+        currentKey: root.editCatColor
+        onSelected: key => {
+            root.editCatColor = key;
+            root.saveSettings();
         }
+    }
 
-        NLabel {
-            label: "Sleep Threshold (" + Math.round(root.editSleepThreshold) + "%)"
-            description: "Load level below which the runner rests after 12 seconds."
+    NLabel {
+        label: (pluginApi ? pluginApi.tr("settings.runnerScale.label") : "Runner Scale") + " (" + root.editCatScale.toFixed(2) + "x)"
+        description: pluginApi ? pluginApi.tr("settings.runnerScale.desc") : "Scale runner size up or down to fit your bar."
+    }
+
+    NSlider {
+        Layout.fillWidth: true
+        from: 0.6
+        to: 1.5
+        stepSize: 0.05
+        value: root.editCatScale
+        onValueChanged: {
+            root.editCatScale = parseFloat(value.toFixed(2));
+            root.saveSettings();
         }
+    }
 
-        NSlider {
-            Layout.fillWidth: true
-            from: 1.0
-            to: 20.0
-            stepSize: 1.0
-            value: root.editSleepThreshold
-            onValueChanged: {
-                root.editSleepThreshold = Math.round(value);
-                root.saveSettings();
-            }
+    NLabel {
+        label: (pluginApi ? pluginApi.tr("settings.speedMultiplier.label") : "Speed Multiplier") + " (" + root.editSpeedMultiplier.toFixed(2) + "x)"
+        description: pluginApi ? pluginApi.tr("settings.speedMultiplier.desc") : "Adjust how quickly the runner reacts to load changes."
+    }
+
+    NSlider {
+        Layout.fillWidth: true
+        from: 0.5
+        to: 2.0
+        stepSize: 0.1
+        value: root.editSpeedMultiplier
+        onValueChanged: {
+            root.editSpeedMultiplier = parseFloat(value.toFixed(2));
+            root.saveSettings();
         }
+    }
 
-        NLabel {
-            label: "Turbo / Overheat Threshold (" + Math.round(root.editTurboThreshold) + "%)"
-            description: "Load level that triggers turbo animation and alert styling."
-        }
-
-        NSlider {
-            Layout.fillWidth: true
-            from: 60.0
-            to: 98.0
-            stepSize: 1.0
-            value: root.editTurboThreshold
-            onValueChanged: {
-                root.editTurboThreshold = Math.round(value);
-                root.saveSettings();
-            }
-        }
-
-        NToggle {
-            Layout.fillWidth: true
-            label: "Sustained Turbo Alert"
-            description: "Send desktop notification if load stays at turbo threshold for 30 seconds."
-            checked: root.editEnableOverheatAlert
-            onToggled: val => {
-                root.editEnableOverheatAlert = val;
-                root.saveSettings();
-            }
-        }
-
-        NDivider {
-            Layout.fillWidth: true
-            Layout.topMargin: Style.marginS
-            Layout.bottomMargin: Style.marginS
-        }
-
-        // --- 4. APPEARANCE & SIZING ---
-        NText {
-            text: "Appearance & Sizing"
-            pointSize: Style.fontSizeL
-            font.weight: Style.fontWeightBold
-            color: Color.mPrimary
-        }
-
-        NComboBox {
-            label: "Color Mode"
-            description: "White, Primary accent, or Rainbow mode for monochrome runners."
-            model: [
-                { key: "default", name: "Pure White (Recommended for dark bar)", label: "Pure White (Recommended for dark bar)" },
-                { key: "primary", name: "Primary Theme Accent", label: "Primary Theme Accent" },
-                { key: "secondary", name: "Secondary Accent", label: "Secondary Accent" },
-                { key: "error", name: "Alert / Error Red", label: "Alert / Error Red" },
-                { key: "rainbow", name: "Rainbow Rave Mode", label: "Rainbow Rave Mode" }
-            ]
-            currentKey: root.editCatColor
-            onSelected: key => {
-                root.editCatColor = key;
-                root.saveSettings();
-            }
-        }
-
-        NLabel {
-            label: "Runner Scale (" + root.editCatScale.toFixed(2) + "x)"
-            description: "Scale runner size up or down to fit your bar."
-        }
-
-        NSlider {
-            Layout.fillWidth: true
-            from: 0.6
-            to: 1.5
-            stepSize: 0.05
-            value: root.editCatScale
-            onValueChanged: {
-                root.editCatScale = parseFloat(value.toFixed(2));
-                root.saveSettings();
-            }
-        }
-
-        NLabel {
-            label: "Speed Multiplier (" + root.editSpeedMultiplier.toFixed(2) + "x)"
-            description: "Adjust how quickly the runner reacts to load changes."
-        }
-
-        NSlider {
-            Layout.fillWidth: true
-            from: 0.5
-            to: 2.0
-            stepSize: 0.1
-            value: root.editSpeedMultiplier
-            onValueChanged: {
-                root.editSpeedMultiplier = parseFloat(value.toFixed(2));
-                root.saveSettings();
-            }
-        }
-
-        NToggle {
-            Layout.fillWidth: true
-            label: "Primary Screen Only"
-            description: "Show runner only on the primary workstation bar instead of all screens."
-            checked: root.editOnlyPrimaryScreen
-            onToggled: val => {
-                root.editOnlyPrimaryScreen = val;
-                root.saveSettings();
-            }
+    NToggle {
+        Layout.fillWidth: true
+        label: pluginApi ? pluginApi.tr("settings.primaryScreenOnly.label") : "Primary Screen Only"
+        description: pluginApi ? pluginApi.tr("settings.primaryScreenOnly.desc") : "Show runner only on the primary workstation bar instead of all screens."
+        checked: root.editOnlyPrimaryScreen
+        onToggled: val => {
+            root.editOnlyPrimaryScreen = val;
+            root.saveSettings();
         }
     }
 

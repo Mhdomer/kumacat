@@ -1,32 +1,98 @@
 {
   "name": "NoctaCat",
   "description": "Ultra-lightweight, hardware-accelerated animated runner for Noctalia bar with sleep mode, multi-sensor metrics, and 40+ runner templates.",
+  "widget": {
+    "tooltip": "NoctaCat",
+    "sleepParticle": "z"
+  },
   "panel": {
     "title": "NoctaCat Telemetry & HUD",
+    "designedBy": "Designed by",
+    "statusPaused": "Paused",
+    "statusSleeping": "Sleeping",
+    "statusTurbo": "Turbo",
+    "statusRunning": "Running",
     "cpuLoad": "CPU Load",
     "frequency": "Frequency",
     "frameTick": "Frame Tick",
     "processRadar": "Process Radar (Top CPU)",
+    "refresh": "Refresh",
+    "kill": "✕",
     "runnerGallery": "Runner Gallery",
+    "scrollHint": "Scroll horizontally →",
     "pause": "Pause / Nap",
     "resume": "Resume",
-    "settings": "All Settings",
-    "refresh": "Refresh"
+    "settings": "All Settings"
   },
   "settings": {
-    "runner": "Runner Character",
-    "activeRunner": "Active Runner",
-    "drivingMetric": "Driving Metric",
-    "audioReactive": "Audio-Reactive Speed",
-    "showBadge": "Show Percentage Badge",
-    "sleepMode": "Enable Sleep Mode",
-    "sleepThreshold": "Sleep Threshold",
-    "turboThreshold": "Turbo / Overheat Threshold",
-    "turboAlert": "Sustained Turbo Alert",
-    "colorMode": "Color Mode",
-    "runnerScale": "Runner Scale",
-    "speedMultiplier": "Speed Multiplier",
-    "primaryScreenOnly": "Primary Screen Only"
+    "sectionRunner": "Runner Character",
+    "selectedPrefix": "Selected",
+    "activeRunner": {
+      "label": "Active Runner (44 Templates)",
+      "desc": "Choose an animal, mechanism, or character."
+    },
+    "templateAttribution": "Community template with full designer attribution in CREDITS.md",
+    "sectionSensors": "Sensors & Reaction",
+    "drivingMetric": {
+      "label": "Driving Metric",
+      "desc": "System sensor controlling the runner speed."
+    },
+    "metric": {
+      "cpu": "CPU Usage (%)",
+      "mem": "RAM Memory Usage (%)",
+      "temp": "CPU Temperature (°C)",
+      "gpu": "GPU Load / Activity (%)",
+      "net": "Network I/O Throughput"
+    },
+    "audioReactive": {
+      "label": "Audio-Reactive Speed",
+      "desc": "Cat pulses and speeds up to music beats."
+    },
+    "showBadge": {
+      "label": "Show Percentage Badge",
+      "desc": "Display load percentage (e.g. 28%) next to the runner in the bar."
+    },
+    "sectionSleep": "Idle Sleep & Overheat",
+    "sleepMode": {
+      "label": "Enable Sleep Mode",
+      "desc": "Halts animation timer completely (0% CPU) when system is idle."
+    },
+    "sleepThreshold": {
+      "label": "Sleep Threshold",
+      "desc": "Load level below which the runner rests after 12 seconds."
+    },
+    "turboThreshold": {
+      "label": "Turbo / Overheat Threshold",
+      "desc": "Load level that triggers turbo animation and alert styling."
+    },
+    "turboAlert": {
+      "label": "Sustained Turbo Alert",
+      "desc": "Send desktop notification if load stays at turbo threshold for 30 seconds."
+    },
+    "sectionAppearance": "Appearance & Sizing",
+    "colorMode": {
+      "label": "Color Mode",
+      "desc": "White, Primary accent, or Rainbow mode for monochrome runners."
+    },
+    "color": {
+      "white": "Pure White (Recommended for dark bar)",
+      "primary": "Primary Theme Accent",
+      "secondary": "Secondary Accent",
+      "error": "Alert / Error Red",
+      "rainbow": "Rainbow Rave Mode"
+    },
+    "runnerScale": {
+      "label": "Runner Scale",
+      "desc": "Scale runner size up or down to fit your bar."
+    },
+    "speedMultiplier": {
+      "label": "Speed Multiplier",
+      "desc": "Adjust how quickly the runner reacts to load changes."
+    },
+    "primaryScreenOnly": {
+      "label": "Primary Screen Only",
+      "desc": "Show runner only on the primary workstation bar instead of all screens."
+    }
   },
   "contextMenu": {
     "pet": "Pet NoctaCat ♥",

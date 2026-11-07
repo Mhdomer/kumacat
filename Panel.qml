@@ -138,20 +138,20 @@ Item {
 
                     ColumnLayout {
                         Layout.fillWidth: true
-                        spacing: 2
+                        spacing: Style.marginXXS
 
-                        Text {
+                        NText {
                             text: mainInstance ? mainInstance.runnerDisplayName : "NoctaCat"
-                            font.pointSize: Style.fontSizeL
+                            pointSize: Style.fontSizeL
                             font.bold: true
                             color: Color.mOnSurface
                             elide: Text.ElideRight
                             Layout.fillWidth: true
                         }
 
-                        Text {
-                            text: "Designed by: " + (mainInstance ? mainInstance.runnerAuthor : "Takuto Nakamura")
-                            font.pointSize: Style.fontSizeXS
+                        NText {
+                            text: (pluginApi ? pluginApi.tr("panel.designedBy") : "Designed by") + ": " + (mainInstance ? mainInstance.runnerAuthor : "Takuto Nakamura")
+                            pointSize: Style.fontSizeXS
                             color: Color.mPrimary
                             elide: Text.ElideRight
                             Layout.fillWidth: true
@@ -164,11 +164,11 @@ Item {
                         height: 26 * Style.uiScaleRatio
                         width: statusText.implicitWidth + Style.marginM * 2
 
-                        Text {
+                        NText {
                             id: statusText
                             anchors.centerIn: parent
-                            text: mainInstance ? (mainInstance.paused ? "Paused" : (mainInstance.isSleeping ? "Sleeping" : (mainInstance.isTurbo ? "Turbo" : "Running"))) : "Running"
-                            font.pointSize: Style.fontSizeXS
+                            text: mainInstance ? (mainInstance.paused ? (pluginApi ? pluginApi.tr("panel.statusPaused") : "Paused") : (mainInstance.isSleeping ? (pluginApi ? pluginApi.tr("panel.statusSleeping") : "Sleeping") : (mainInstance.isTurbo ? (pluginApi ? pluginApi.tr("panel.statusTurbo") : "Turbo") : (pluginApi ? pluginApi.tr("panel.statusRunning") : "Running")))) : (pluginApi ? pluginApi.tr("panel.statusRunning") : "Running")
+                            pointSize: Style.fontSizeXS
                             font.bold: true
                             color: (mainInstance && mainInstance.isSleeping) ? Color.mSecondary : ((mainInstance && mainInstance.isTurbo) ? Color.mError : Color.mPrimary)
                         }
@@ -191,29 +191,29 @@ Item {
                     columnSpacing: Style.marginM
 
                     ColumnLayout {
-                        spacing: 2
-                        Text { text: "CPU Load"; font.pointSize: Style.fontSizeXS; color: Color.mOnSurfaceVariant }
-                        Text {
+                        spacing: Style.marginXXS
+                        NText { text: pluginApi ? pluginApi.tr("panel.cpuLoad") : "CPU Load"; pointSize: Style.fontSizeXS; color: Color.mOnSurfaceVariant }
+                        NText {
                             text: (mainInstance ? mainInstance.currentMetricValue : 0) + "%"
-                            font.pointSize: Style.fontSizeM; font.bold: true; color: Color.mOnSurface
+                            pointSize: Style.fontSizeM; font.bold: true; color: Color.mOnSurface
                         }
                     }
 
                     ColumnLayout {
-                        spacing: 2
-                        Text { text: "Frequency"; font.pointSize: Style.fontSizeXS; color: Color.mOnSurfaceVariant }
-                        Text {
+                        spacing: Style.marginXXS
+                        NText { text: pluginApi ? pluginApi.tr("panel.frequency") : "Frequency"; pointSize: Style.fontSizeXS; color: Color.mOnSurfaceVariant }
+                        NText {
                             text: SystemStatService.cpuFreq
-                            font.pointSize: Style.fontSizeM; font.bold: true; color: Color.mOnSurface
+                            pointSize: Style.fontSizeM; font.bold: true; color: Color.mOnSurface
                         }
                     }
 
                     ColumnLayout {
-                        spacing: 2
-                        Text { text: "Frame Tick"; font.pointSize: Style.fontSizeXS; color: Color.mOnSurfaceVariant }
-                        Text {
+                        spacing: Style.marginXXS
+                        NText { text: pluginApi ? pluginApi.tr("panel.frameTick") : "Frame Tick"; pointSize: Style.fontSizeXS; color: Color.mOnSurfaceVariant }
+                        NText {
                             text: (mainInstance ? mainInstance.frameIntervalMs : 0) + "ms"
-                            font.pointSize: Style.fontSizeM; font.bold: true; color: Color.mPrimary
+                            pointSize: Style.fontSizeM; font.bold: true; color: Color.mPrimary
                         }
                     }
                 }
@@ -233,16 +233,16 @@ Item {
 
                     RowLayout {
                         Layout.fillWidth: true
-                        Text {
-                            text: "Process Radar (Top CPU)"
-                            font.pointSize: Style.fontSizeS
+                        NText {
+                            text: pluginApi ? pluginApi.tr("panel.processRadar") : "Process Radar"
+                            pointSize: Style.fontSizeS
                             font.bold: true
                             color: Color.mOnSurface
                             Layout.fillWidth: true
                         }
 
                         NButton {
-                            text: "Refresh"
+                            text: pluginApi ? pluginApi.tr("panel.refresh") : "Refresh"
                             outlined: false
                             backgroundColor: Color.mSurface
                             textColor: Color.mOnSurface
@@ -257,27 +257,27 @@ Item {
                             Layout.fillWidth: true
                             spacing: Style.marginS
 
-                            Text {
+                            NText {
                                 text: (modelData && modelData.pid) ? modelData.pid : ""
-                                font.pointSize: Style.fontSizeXS
-                                font.family: Style.fontFamilyMonospace
+                                pointSize: Style.fontSizeXS
+                                family: Style.fontFamilyMonospace
                                 color: Color.mOnSurfaceVariant
                                 Layout.preferredWidth: 44 * Style.uiScaleRatio
                             }
 
-                            Text {
+                            NText {
                                 text: (modelData && modelData.name) ? modelData.name : ""
-                                font.pointSize: Style.fontSizeS
-                                font.family: Style.fontFamilyMonospace
+                                pointSize: Style.fontSizeS
+                                family: Style.fontFamilyMonospace
                                 color: Color.mOnSurface
                                 Layout.fillWidth: true
                                 elide: Text.ElideRight
                             }
 
-                            Text {
+                            NText {
                                 text: (modelData && modelData.cpu) ? modelData.cpu : ""
-                                font.pointSize: Style.fontSizeS
-                                font.family: Style.fontFamilyMonospace
+                                pointSize: Style.fontSizeS
+                                family: Style.fontFamilyMonospace
                                 font.bold: true
                                 color: Color.mPrimary
                             }
@@ -288,12 +288,12 @@ Item {
                                 radius: Style.radiusS
                                 color: killArea.containsMouse ? Qt.alpha(Color.mError, 0.25) : Color.mSurface
                                 border.color: killArea.containsMouse ? Color.mError : Color.mOutline
-                                border.width: 1
+                                border.width: Style.borderS
 
-                                Text {
+                                NText {
                                     anchors.centerIn: parent
-                                    text: "✕"
-                                    font.pixelSize: 10 * Style.uiScaleRatio
+                                    text: pluginApi ? pluginApi.tr("panel.kill") : "✕"
+                                    pointSize: Style.fontSizeXS
                                     color: killArea.containsMouse ? Color.mError : Color.mOnSurfaceVariant
                                     font.bold: true
                                 }
@@ -319,16 +319,16 @@ Item {
             // 4. Full Runner Gallery Horizontal Browser
             RowLayout {
                 Layout.fillWidth: true
-                Text {
-                    text: "Runner Gallery (" + root.runnersList.length + " Available)"
-                    font.pointSize: Style.fontSizeS
+                NText {
+                    text: (pluginApi ? pluginApi.tr("panel.runnerGallery") : "Runner Gallery") + " (" + root.runnersList.length + ")"
+                    pointSize: Style.fontSizeS
                     font.bold: true
                     color: Color.mOnSurface
                     Layout.fillWidth: true
                 }
-                Text {
-                    text: "Scroll horizontally →"
-                    font.pointSize: Style.fontSizeXS
+                NText {
+                    text: pluginApi ? pluginApi.tr("panel.scrollHint") : "Scroll horizontally →"
+                    pointSize: Style.fontSizeXS
                     color: Color.mOnSurfaceVariant
                 }
             }
@@ -349,11 +349,11 @@ Item {
                     radius: Style.radiusM
                     color: (mainInstance && mainInstance.runner === modelData.id) ? Qt.alpha(Color.mPrimary, 0.25) : Color.mSurfaceVariant
                     border.color: (mainInstance && mainInstance.runner === modelData.id) ? Color.mPrimary : Qt.alpha(Color.mOutline, 0.5)
-                    border.width: (mainInstance && mainInstance.runner === modelData.id) ? 2 : 1
+                    border.width: (mainInstance && mainInstance.runner === modelData.id) ? Style.borderM : Style.borderS
 
                     ColumnLayout {
                         anchors.centerIn: parent
-                        spacing: 4
+                        spacing: Style.marginXS
 
                         Image {
                             width: 36 * Style.uiScaleRatio
@@ -364,9 +364,9 @@ Item {
                             Layout.alignment: Qt.AlignHCenter
                         }
 
-                        Text {
+                        NText {
                             text: parent.parent.modelData.displayName
-                            font.pointSize: Style.fontSizeXS * 0.85
+                            pointSize: Style.fontSizeXS * 0.85
                             color: (mainInstance && mainInstance.runner === parent.parent.modelData.id) ? Color.mPrimary : Color.mOnSurface
                             font.bold: (mainInstance && mainInstance.runner === parent.parent.modelData.id)
                             elide: Text.ElideRight
@@ -398,7 +398,7 @@ Item {
                 spacing: Style.marginM
 
                 NButton {
-                    text: (mainInstance && mainInstance.paused) ? "Resume" : "Pause / Nap"
+                    text: (mainInstance && mainInstance.paused) ? (pluginApi ? pluginApi.tr("panel.resume") : "Resume") : (pluginApi ? pluginApi.tr("panel.pause") : "Pause")
                     icon: (mainInstance && mainInstance.paused) ? "player-play" : "player-pause"
                     outlined: false
                     backgroundColor: Color.mSurfaceVariant
@@ -410,7 +410,7 @@ Item {
                 }
 
                 NButton {
-                    text: "All Settings"
+                    text: pluginApi ? pluginApi.tr("panel.settings") : "All Settings"
                     icon: "settings"
                     outlined: false
                     backgroundColor: Color.mPrimary

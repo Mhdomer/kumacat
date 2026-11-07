@@ -113,14 +113,14 @@ Item {
                 height: root.runnerHeight
                 Layout.alignment: Qt.AlignVCenter
 
-                Text {
+                NText {
                     id: petBadge
                     anchors.horizontalCenter: parent.horizontalCenter
                     y: -4
                     visible: false
                     text: root.petEmoteText
                     font.bold: true
-                    font.pointSize: Style.fontSizeS
+                    pointSize: Style.fontSizeS
                     color: Color.mPrimary
                     z: 10
                 }
@@ -145,10 +145,10 @@ Item {
                 Repeater {
                     id: zzzEffect
                     model: 3
-                    delegate: Text {
+                    delegate: NText {
                         id: zText
                         required property int index
-                        text: "z"
+                        text: pluginApi ? pluginApi.tr("widget.sleepParticle") : "z"
                         font.pixelSize: root.runnerHeight * (0.35 + index * 0.08)
                         font.bold: true
                         color: root.resolvedCatColor
@@ -180,11 +180,11 @@ Item {
                 }
             }
 
-            Text {
+            NText {
                 id: badgeText
                 visible: root.showBadge && !root.isBarVertical
                 text: (mainInstance ? mainInstance.currentMetricValue : 0) + "%"
-                font.pointSize: Style.fontSizeXS
+                pointSize: Style.fontSizeXS
                 font.bold: true
                 color: root.resolvedCatColor
                 Layout.alignment: Qt.AlignVCenter
@@ -197,17 +197,17 @@ Item {
 
         model: [
             {
-                "label": "Pet NoctaCat ♥",
+                "label": pluginApi ? pluginApi.tr("contextMenu.pet") : "Pet",
                 "action": "pet",
                 "icon": "heart"
             },
             {
-                "label": isPaused ? "Resume NoctaCat" : "Pause / Nap",
+                "label": isPaused ? (pluginApi ? pluginApi.tr("contextMenu.resume") : "Resume") : (pluginApi ? pluginApi.tr("contextMenu.pause") : "Pause"),
                 "action": "toggle-pause",
                 "icon": isPaused ? "player-play" : "player-pause"
             },
             {
-                "label": "Widget Settings",
+                "label": pluginApi ? pluginApi.tr("contextMenu.settings") : "Settings",
                 "action": "widget-settings",
                 "icon": "settings"
             }

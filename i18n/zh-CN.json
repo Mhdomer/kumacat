@@ -1,0 +1,103 @@
+{
+  "name": "NoctaCat",
+  "description": "极轻量、硬件加速的 Noctalia 状态栏动态运行动画插件，支持空闲休眠、多硬件传感器与40+款精美模板。",
+  "widget": {
+    "tooltip": "NoctaCat",
+    "sleepParticle": "z"
+  },
+  "panel": {
+    "title": "NoctaCat 遥测与仪表盘",
+    "designedBy": "原画设计",
+    "statusPaused": "已暂停",
+    "statusSleeping": "休眠中",
+    "statusTurbo": "超频",
+    "statusRunning": "运行中",
+    "cpuLoad": "CPU 负载",
+    "frequency": "主频",
+    "frameTick": "帧间隔",
+    "processRadar": "进程雷达 (占用最高 CPU)",
+    "refresh": "刷新",
+    "kill": "✕",
+    "runnerGallery": "运行动画库",
+    "scrollHint": "水平滚动查看更多 →",
+    "pause": "暂停 / 小憩",
+    "resume": "继续运行",
+    "settings": "全部设置"
+  },
+  "settings": {
+    "sectionRunner": "运行角色",
+    "selectedPrefix": "当前选择",
+    "activeRunner": {
+      "label": "运行角色 (44 款模板)",
+      "desc": "挑选喜爱的小动物、机械装置或角色。"
+    },
+    "templateAttribution": "社区模板与完整设计师致谢见 CREDITS.md",
+    "sectionSensors": "传感器与动力响应",
+    "drivingMetric": {
+      "label": "动力驱动指标",
+      "desc": "控制动画运行速度的硬件传感器。"
+    },
+    "metric": {
+      "cpu": "CPU 占用率 (%)",
+      "mem": "内存占用率 (%)",
+      "temp": "CPU 核心温度 (°C)",
+      "gpu": "GPU 负载 (%)",
+      "net": "网络吞吐量 (I/O)"
+    },
+    "audioReactive": {
+      "label": "音频律动响应",
+      "desc": "随音乐节拍律动加速运行。"
+    },
+    "showBadge": {
+      "label": "显示百分比徽标",
+      "desc": "在状态栏小动物旁显示当前数值。"
+    },
+    "sectionSleep": "空闲休眠与过热警报",
+    "sleepMode": {
+      "label": "启用空闲休眠",
+      "desc": "系统空闲时彻底暂停计时器 (0% CPU 占用)。"
+    },
+    "sleepThreshold": {
+      "label": "休眠触发阈值",
+      "desc": "负载持续12秒低于此阈值时进入小憩。"
+    },
+    "turboThreshold": {
+      "label": "疾速 / 超频阈值",
+      "desc": "达到此负载时触发极速狂奔与警报色。"
+    },
+    "turboAlert": {
+      "label": "持续超频桌面通知",
+      "desc": "高负载持续超过30秒时发送桌面通知提醒。"
+    },
+    "sectionAppearance": "外观与尺寸",
+    "colorMode": {
+      "label": "色彩模式",
+      "desc": "纯白、主题强调色或彩虹狂欢模式。"
+    },
+    "color": {
+      "white": "纯白 (深色状态栏推荐)",
+      "primary": "主题主强调色",
+      "secondary": "主题副强调色",
+      "error": "警报红",
+      "rainbow": "彩虹霓虹模式"
+    },
+    "runnerScale": {
+      "label": "角色缩放比例",
+      "desc": "调整小动物大小以适配状态栏高度。"
+    },
+    "speedMultiplier": {
+      "label": "速度倍率",
+      "desc": "调整角色对负载变化的灵敏度。"
+    },
+    "primaryScreenOnly": {
+      "label": "仅在主屏幕显示",
+      "desc": "仅在主工作台状态栏显示，忽略副屏。"
+    }
+  },
+  "contextMenu": {
+    "pet": "摸摸 NoctaCat ♥",
+    "pause": "暂停 / 小憩",
+    "resume": "唤醒 NoctaCat",
+    "settings": "插件设置"
+  }
+}

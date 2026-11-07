@@ -1,0 +1,103 @@
+{
+  "name": "NoctaCat",
+  "description": "Ultraleichter, hardwarebeschleunigter animierter Läufer für die Noctalia-Leiste mit Schlafmodus, Multisensormetriken und 40+ Läufer-Vorlagen.",
+  "widget": {
+    "tooltip": "NoctaCat",
+    "sleepParticle": "z"
+  },
+  "panel": {
+    "title": "NoctaCat Telemetrie & HUD",
+    "designedBy": "Entworfen von",
+    "statusPaused": "Pausiert",
+    "statusSleeping": "Schläft",
+    "statusTurbo": "Turbo",
+    "statusRunning": "Aktiv",
+    "cpuLoad": "CPU-Last",
+    "frequency": "Frequenz",
+    "frameTick": "Bildtakt",
+    "processRadar": "Prozess-Radar (Top CPU)",
+    "refresh": "Aktualisieren",
+    "kill": "✕",
+    "runnerGallery": "Läufer-Galerie",
+    "scrollHint": "Horizontal scrollen →",
+    "pause": "Pause / Schlafen",
+    "resume": "Fortsetzen",
+    "settings": "Alle Einstellungen"
+  },
+  "settings": {
+    "sectionRunner": "Läufer-Charakter",
+    "selectedPrefix": "Ausgewählt",
+    "activeRunner": {
+      "label": "Aktiver Läufer (44 Vorlagen)",
+      "desc": "Wähle ein Tier, eine Mechanik oder einen Charakter."
+    },
+    "templateAttribution": "Community-Vorlage mit vollständiger Designer-Zuschreibung in CREDITS.md",
+    "sectionSensors": "Sensoren & Reaktion",
+    "drivingMetric": {
+      "label": "Steuernde Metrik",
+      "desc": "Systemsensor, der die Geschwindigkeit steuert."
+    },
+    "metric": {
+      "cpu": "CPU-Auslastung (%)",
+      "mem": "RAM-Auslastung (%)",
+      "temp": "CPU-Temperatur (°C)",
+      "gpu": "GPU-Last (%)",
+      "net": "Netzwerk-Durchsatz"
+    },
+    "audioReactive": {
+      "label": "Audioreaktive Geschwindigkeit",
+      "desc": "Läufer reagiert und beschleunigt im Takt der Musik."
+    },
+    "showBadge": {
+      "label": "Prozent-Badge anzeigen",
+      "desc": "Lastprozentsatz neben dem Läufer in der Leiste anzeigen."
+    },
+    "sectionSleep": "Ruhemodus & Überhitzung",
+    "sleepMode": {
+      "label": "Ruhemodus aktivieren",
+      "desc": "Stoppt den Animations-Timer komplett (0% CPU) im Leerlauf."
+    },
+    "sleepThreshold": {
+      "label": "Ruhe-Schwellenwert",
+      "desc": "Lastniveau, unter dem der Läufer nach 12 Sekunden schläft."
+    },
+    "turboThreshold": {
+      "label": "Turbo / Hitze-Schwellenwert",
+      "desc": "Lastniveau, das Turbo-Animation und Warnanzeige auslöst."
+    },
+    "turboAlert": {
+      "label": "Dauerhafter Turbo-Alarm",
+      "desc": "Desktop-Benachrichtigung senden, wenn die Last 30 Sekunden lang hoch bleibt."
+    },
+    "sectionAppearance": "Erscheinungsbild & Größe",
+    "colorMode": {
+      "label": "Farbmodus",
+      "desc": "Weiß, Primärakzent oder Regenbogenmodus für monochrome Läufer."
+    },
+    "color": {
+      "white": "Reinweiß (Empfohlen für dunkle Leiste)",
+      "primary": "Primärer Themenakzent",
+      "secondary": "Sekundärakzent",
+      "error": "Alarm- / Fehler-Rot",
+      "rainbow": "Regenbogen-Modus"
+    },
+    "runnerScale": {
+      "label": "Läufer-Skalierung",
+      "desc": "Größe des Läufers an die Leiste anpassen."
+    },
+    "speedMultiplier": {
+      "label": "Geschwindigkeitsmultiplikator",
+      "desc": "Reaktionsgeschwindigkeit auf Laständerungen anpassen."
+    },
+    "primaryScreenOnly": {
+      "label": "Nur primärer Bildschirm",
+      "desc": "Läufer nur auf der primären Leiste anzeigen."
+    }
+  },
+  "contextMenu": {
+    "pet": "NoctaCat streicheln ♥",
+    "pause": "Pause / Schlafen",
+    "resume": "NoctaCat fortsetzen",
+    "settings": "Widget-Einstellungen"
+  }
+}
