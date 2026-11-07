@@ -22,6 +22,13 @@ Item {
 
     property var topProcesses: []
     property var runnersList: []
+    property real headerBounceY: 0
+
+    Timer {
+        id: headerBounceTimer
+        interval: 140
+        onTriggered: root.headerBounceY = 0
+    }
 
     FileView {
         id: runnersJsonView
@@ -101,13 +108,32 @@ Item {
                     anchors.margins: Style.marginM
                     spacing: Style.marginM
 
-                    Image {
-                        id: headerPreview
+                    Item {
                         width: 48 * Style.uiScaleRatio
                         height: 36 * Style.uiScaleRatio
-                        fillMode: Image.PreserveAspectFit
-                        source: pluginApi ? pluginApi.pluginDir + "/runners/" + (mainInstance ? mainInstance.runner : "pixel-cat") + "/preview.png" : ""
-                        cache: true
+
+                        Image {
+                            id: headerPreview
+                            anchors.fill: parent
+                            fillMode: Image.PreserveAspectFit
+                            source: pluginApi ? pluginApi.pluginDir + "/runners/" + (mainInstance ? mainInstance.runner : "pixel-cat") + "/preview.png" : ""
+                            cache: true
+                            y: root.headerBounceY
+
+                            Behavior on y {
+                                NumberAnimation { duration: 140; easing.type: Easing.OutQuad }
+                            }
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            hoverEnabled: true
+                            onClicked: {
+                                root.headerBounceY = -6;
+                                headerBounceTimer.restart();
+                            }
+                        }
                     }
 
                     ColumnLayout {

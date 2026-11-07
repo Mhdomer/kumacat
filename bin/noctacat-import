@@ -93,7 +93,7 @@ def import_runner(
 
         final_frames = []
         for idx, src_frame in enumerate(extracted):
-            dest_frame = target_dir / f"frame-{idx:02d}.png"
+            dest_frame = target_dir / f"frame-{idx}.png"
             if should_invert:
                 # Invert RGB to pure white while preserving alpha channel
                 subprocess.check_call([

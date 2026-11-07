@@ -25,6 +25,7 @@ Item {
     readonly property bool enableOverheatAlert: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.enableOverheatAlert !== undefined) ? pluginApi.pluginSettings.enableOverheatAlert : true
 
     property real gpuVal: 0
+    property bool gpuSysfsAvailable: false
     property int turboSeconds: 0
 
     property bool paused: false
@@ -64,7 +65,7 @@ Item {
         if (driveMetric === "mem") return Math.round(memVal);
         if (driveMetric === "temp") return Math.min(100, Math.max(0, Math.round((tempVal - 30) * 1.5)));
         if (driveMetric === "gpu") {
-            if (root.gpuVal > 0) return Math.round(root.gpuVal);
+            if (root.gpuSysfsAvailable) return Math.round(root.gpuVal);
             return Math.min(100, Math.max(0, Math.round((SystemStatService.gpuTemp - 35) * 1.6)));
         }
         if (driveMetric === "net") {
@@ -84,6 +85,7 @@ Item {
         onLoaded: {
             const parsed = parseInt(text().trim());
             if (!isNaN(parsed)) {
+                root.gpuSysfsAvailable = true;
                 root.gpuVal = Math.min(100, Math.max(0, parsed));
             }
         }
