@@ -2,6 +2,8 @@
 
 Ultra-lightweight, hardware-accelerated animated runner for [Noctalia Shell](https://github.com/noctalia-dev/noctalia) on Wayland (Niri, Hyprland, Sway).
 
+![KumaCat Preview](preview.png)
+
 Inspired by RunCat and cosmic-runkat, redesigned from the ground up for zero-overhead performance, idle sleep state, interactive process radar with kill switches, pet mechanics, multi-sensor hardware telemetry, and an automated GIF importer.
 
 ---
