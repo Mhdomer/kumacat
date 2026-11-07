@@ -9,10 +9,13 @@
   "repository": "https://github.com/Mhdomer/noctacat",
   "tags": [
     "Bar",
-    "Hardware",
+    "Panel",
     "System",
     "Fun",
-    "Panel"
+    "Indicator",
+    "Niri",
+    "Hyprland",
+    "Sway"
   ],
   "entryPoints": {
     "main": "Main.qml",
