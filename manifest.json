@@ -35,7 +35,9 @@
       "catOffsetY": 0.0,
       "showBadge": false,
       "speedMultiplier": 1.0,
-      "audioReactive": false
+      "audioReactive": false,
+      "onlyPrimaryScreen": false,
+      "enableOverheatAlert": true
     }
   }
 }

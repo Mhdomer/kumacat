@@ -21,6 +21,11 @@ Item {
     readonly property real sleepThreshold: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.sleepThreshold !== undefined) ? pluginApi.pluginSettings.sleepThreshold : 5.0
     readonly property real turboThreshold: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.turboThreshold !== undefined) ? pluginApi.pluginSettings.turboThreshold : 85.0
     readonly property bool audioReactive: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.audioReactive !== undefined) ? pluginApi.pluginSettings.audioReactive : false
+    readonly property bool onlyPrimaryScreen: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.onlyPrimaryScreen !== undefined) ? pluginApi.pluginSettings.onlyPrimaryScreen : false
+    readonly property bool enableOverheatAlert: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.enableOverheatAlert !== undefined) ? pluginApi.pluginSettings.enableOverheatAlert : true
+
+    property real gpuVal: 0
+    property int turboSeconds: 0
 
     property bool paused: false
     property int currentFrame: 0
@@ -58,7 +63,30 @@ Item {
         }
         if (driveMetric === "mem") return Math.round(memVal);
         if (driveMetric === "temp") return Math.min(100, Math.max(0, Math.round((tempVal - 30) * 1.5)));
+        if (driveMetric === "gpu") {
+            if (root.gpuVal > 0) return Math.round(root.gpuVal);
+            return Math.min(100, Math.max(0, Math.round((SystemStatService.gpuTemp - 35) * 1.6)));
+        }
+        if (driveMetric === "net") {
+            const kbps = (SystemStatService.rxSpeed + SystemStatService.txSpeed) / 1024;
+            if (kbps <= 5) return 0;
+            const ratio = Math.min(1.0, Math.log10(kbps / 5) / Math.log10(2048));
+            return Math.min(100, Math.max(0, Math.round(ratio * 100)));
+        }
         return Math.round(cpuVal);
+    }
+
+    FileView {
+        id: gpuBusyView
+        path: "/sys/class/drm/card2/device/gpu_busy_percent"
+        watchChanges: false
+        printErrors: false
+        onLoaded: {
+            const parsed = parseInt(text().trim());
+            if (!isNaN(parsed)) {
+                root.gpuVal = Math.min(100, Math.max(0, parsed));
+            }
+        }
     }
 
     readonly property int frameIntervalMs: {
@@ -85,8 +113,29 @@ Item {
         id: sleepCheckTimer
         interval: 1000
         repeat: true
-        running: root.sleepEnabled && !root.paused
+        running: !root.paused
         onTriggered: {
+            if (root.driveMetric === "gpu") {
+                gpuBusyView.reload();
+            }
+
+            if (root.enableOverheatAlert && root.isTurbo) {
+                root.turboSeconds++;
+                if (root.turboSeconds === 30) {
+                    Quickshell.execDetached([
+                        "notify-send",
+                        "-a", "NoctaCat",
+                        "-u", "critical",
+                        "NoctaCat: Sustained Turbo Load",
+                        "High load (" + root.currentMetricValue + "%) detected for 30s. Check Process Radar in the HUD."
+                    ]);
+                }
+            } else {
+                root.turboSeconds = 0;
+            }
+
+            if (!root.sleepEnabled) return;
+
             if (root.currentMetricValue <= root.sleepThreshold) {
                 root.idleSeconds++;
                 if (root.idleSeconds >= 12) {

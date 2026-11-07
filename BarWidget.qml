@@ -47,14 +47,46 @@ Item {
         return base + "/frame-" + mainInstance.currentFrame + ".png";
     }
 
+    readonly property bool onlyPrimaryScreen: mainInstance ? mainInstance.onlyPrimaryScreen : false
+    readonly property bool isPrimaryScreen: screen ? (Quickshell.screens.length > 0 && screen === Quickshell.screens[0]) : true
+    visible: !onlyPrimaryScreen || isPrimaryScreen
+
+    property real petBounceY: 0
+    property string petEmoteText: "♥"
+
+    function petTheCat() {
+        const emotes = ["♥", "meow~", "purr~", "✨", "^•ﻌ•^"];
+        petEmoteText = emotes[Math.floor(Math.random() * emotes.length)];
+        petAnim.restart();
+    }
+
+    SequentialAnimation {
+        id: petAnim
+        ParallelAnimation {
+            SequentialAnimation {
+                NumberAnimation { target: root; property: "petBounceY"; to: -8; duration: 120; easing.type: Easing.OutQuad }
+                NumberAnimation { target: root; property: "petBounceY"; to: 0; duration: 160; easing.type: Easing.OutBounce }
+            }
+            SequentialAnimation {
+                PropertyAction { target: petBadge; property: "visible"; value: true }
+                NumberAnimation { target: petBadge; property: "opacity"; from: 0; to: 1; duration: 100 }
+                ParallelAnimation {
+                    NumberAnimation { target: petBadge; property: "y"; from: -4; to: -22; duration: 750; easing.type: Easing.OutCubic }
+                    NumberAnimation { target: petBadge; property: "opacity"; from: 1; to: 0; duration: 750 }
+                }
+                PropertyAction { target: petBadge; property: "visible"; value: false }
+            }
+        }
+    }
+
     readonly property real runnerHeight: capsuleHeight * 0.72 * catScale
     readonly property real contentWidth: isBarVertical
         ? capsuleHeight
         : (showBadge ? runnerHeight * 1.5 + badgeText.implicitWidth + Style.marginM * 2 : runnerHeight * 1.5 + Style.marginM * 1.5)
     readonly property real contentHeight: capsuleHeight
 
-    implicitWidth: contentWidth
-    implicitHeight: contentHeight
+    implicitWidth: visible ? contentWidth : 0
+    implicitHeight: visible ? contentHeight : 0
 
     Rectangle {
         id: visualCapsule
@@ -72,7 +104,7 @@ Item {
 
         RowLayout {
             anchors.centerIn: parent
-            anchors.verticalCenterOffset: root.capsuleHeight * root.catOffsetY
+            anchors.verticalCenterOffset: root.capsuleHeight * root.catOffsetY + root.petBounceY
             spacing: Style.marginXS
 
             Item {
@@ -80,6 +112,18 @@ Item {
                 width: root.runnerHeight * 1.5
                 height: root.runnerHeight
                 Layout.alignment: Qt.AlignVCenter
+
+                Text {
+                    id: petBadge
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    y: -4
+                    visible: false
+                    text: root.petEmoteText
+                    font.bold: true
+                    font.pointSize: Style.fontSizeS
+                    color: Color.mPrimary
+                    z: 10
+                }
 
                 Image {
                     id: runnerImg
@@ -153,6 +197,11 @@ Item {
 
         model: [
             {
+                "label": "Pet NoctaCat ♥",
+                "action": "pet",
+                "icon": "heart"
+            },
+            {
                 "label": isPaused ? "Resume NoctaCat" : "Pause / Nap",
                 "action": "toggle-pause",
                 "icon": isPaused ? "player-play" : "player-pause"
@@ -167,7 +216,9 @@ Item {
         onTriggered: action => {
             contextMenu.close();
             PanelService.closeContextMenu(screen);
-            if (action === "widget-settings") {
+            if (action === "pet") {
+                root.petTheCat();
+            } else if (action === "widget-settings") {
                 BarService.openPluginSettings(screen, pluginApi.manifest);
             } else if (action === "toggle-pause" && mainInstance) {
                 mainInstance.paused = !mainInstance.paused;
@@ -181,6 +232,12 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
+
+        onDoubleClicked: mouse => {
+            if (mouse.button === Qt.LeftButton) {
+                root.petTheCat();
+            }
+        }
 
         onClicked: mouse => {
             if (mouse.button === Qt.LeftButton) {

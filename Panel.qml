@@ -38,7 +38,7 @@ Item {
 
     Process {
         id: psProc
-        command: ["sh", "-c", "ps -eo comm,%cpu --sort=-%cpu | sed 1d | head -n 3"]
+        command: ["sh", "-c", "ps -eo pid,comm,%cpu --sort=-%cpu | sed 1d | head -n 3"]
         running: false
 
         stdout: StdioCollector {
@@ -47,10 +47,11 @@ Item {
                 const procs = [];
                 for (let i = 0; i < lines.length; i++) {
                     const parts = lines[i].trim().split(/\s+/);
-                    if (parts.length >= 2) {
+                    if (parts.length >= 3) {
                         procs.push({
-                            name: parts[0],
-                            cpu: parts[1] + "%"
+                            pid: parts[0],
+                            name: parts[1],
+                            cpu: parts[2] + "%"
                         });
                     }
                 }
@@ -58,6 +59,13 @@ Item {
                 psProc.running = false;
             }
         }
+    }
+
+    Timer {
+        id: killRefreshTimer
+        interval: 600
+        repeat: false
+        onTriggered: root.refreshTopProcesses()
     }
 
     function refreshTopProcesses() {
@@ -221,6 +229,15 @@ Item {
                         delegate: RowLayout {
                             required property var modelData
                             Layout.fillWidth: true
+                            spacing: Style.marginS
+
+                            Text {
+                                text: (modelData && modelData.pid) ? modelData.pid : ""
+                                font.pointSize: Style.fontSizeXS
+                                font.family: Style.fontFamilyMonospace
+                                color: Color.mOnSurfaceVariant
+                                Layout.preferredWidth: 44 * Style.uiScaleRatio
+                            }
 
                             Text {
                                 text: (modelData && modelData.name) ? modelData.name : ""
@@ -237,6 +254,36 @@ Item {
                                 font.family: Style.fontFamilyMonospace
                                 font.bold: true
                                 color: Color.mPrimary
+                            }
+
+                            Rectangle {
+                                width: 22 * Style.uiScaleRatio
+                                height: 22 * Style.uiScaleRatio
+                                radius: Style.radiusS
+                                color: killArea.containsMouse ? Qt.alpha(Color.mError, 0.25) : Color.mSurface
+                                border.color: killArea.containsMouse ? Color.mError : Color.mOutline
+                                border.width: 1
+
+                                Text {
+                                    anchors.centerIn: parent
+                                    text: "✕"
+                                    font.pixelSize: 10 * Style.uiScaleRatio
+                                    color: killArea.containsMouse ? Color.mError : Color.mOnSurfaceVariant
+                                    font.bold: true
+                                }
+
+                                MouseArea {
+                                    id: killArea
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: {
+                                        if (parent.parent.modelData && parent.parent.modelData.pid) {
+                                            Quickshell.execDetached(["kill", "-15", parent.parent.modelData.pid]);
+                                            killRefreshTimer.restart();
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

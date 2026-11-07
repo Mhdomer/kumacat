@@ -23,6 +23,8 @@ Item {
     property real editSleepThreshold: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.sleepThreshold !== undefined) ? pluginApi.pluginSettings.sleepThreshold : 5.0
     property real editTurboThreshold: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.turboThreshold !== undefined) ? pluginApi.pluginSettings.turboThreshold : 85.0
     property bool editAudioReactive: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.audioReactive !== undefined) ? pluginApi.pluginSettings.audioReactive : false
+    property bool editOnlyPrimaryScreen: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.onlyPrimaryScreen !== undefined) ? pluginApi.pluginSettings.onlyPrimaryScreen : false
+    property bool editEnableOverheatAlert: (pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.enableOverheatAlert !== undefined) ? pluginApi.pluginSettings.enableOverheatAlert : true
 
     property var runnersList: []
 
@@ -141,7 +143,9 @@ Item {
             model: [
                 { key: "cpu", name: "CPU Usage (%)", label: "CPU Usage (%)" },
                 { key: "mem", name: "RAM Memory Usage (%)", label: "RAM Memory Usage (%)" },
-                { key: "temp", name: "CPU Temperature (°C)", label: "CPU Temperature (°C)" }
+                { key: "temp", name: "CPU Temperature (°C)", label: "CPU Temperature (°C)" },
+                { key: "gpu", name: "GPU Load / Activity (%)", label: "GPU Load / Activity (%)" },
+                { key: "net", name: "Network I/O Throughput", label: "Network I/O Throughput" }
             ]
             currentKey: root.editDriveMetric
             onSelected: key => {
@@ -231,6 +235,17 @@ Item {
             }
         }
 
+        NToggle {
+            Layout.fillWidth: true
+            label: "Sustained Turbo Alert"
+            description: "Send desktop notification if load stays at turbo threshold for 30 seconds."
+            checked: root.editEnableOverheatAlert
+            onToggled: val => {
+                root.editEnableOverheatAlert = val;
+                root.saveSettings();
+            }
+        }
+
         NDivider {
             Layout.fillWidth: true
             Layout.topMargin: Style.marginS
@@ -295,6 +310,17 @@ Item {
                 root.saveSettings();
             }
         }
+
+        NToggle {
+            Layout.fillWidth: true
+            label: "Primary Screen Only"
+            description: "Show runner only on the primary workstation bar instead of all screens."
+            checked: root.editOnlyPrimaryScreen
+            onToggled: val => {
+                root.editOnlyPrimaryScreen = val;
+                root.saveSettings();
+            }
+        }
     }
 
     function saveSettings() {
@@ -310,6 +336,8 @@ Item {
         pluginApi.pluginSettings.sleepThreshold = root.editSleepThreshold;
         pluginApi.pluginSettings.turboThreshold = root.editTurboThreshold;
         pluginApi.pluginSettings.audioReactive = root.editAudioReactive;
+        pluginApi.pluginSettings.onlyPrimaryScreen = root.editOnlyPrimaryScreen;
+        pluginApi.pluginSettings.enableOverheatAlert = root.editEnableOverheatAlert;
         pluginApi.saveSettings();
     }
 }
