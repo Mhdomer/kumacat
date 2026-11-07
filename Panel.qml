@@ -11,15 +11,30 @@ Item {
     id: root
 
     property var pluginApi: null
+    property ShellScreen screen
     readonly property var geometryPlaceholder: panelContainer
     readonly property bool allowAttach: true
     readonly property var mainInstance: pluginApi ? pluginApi.mainInstance : null
 
     property bool panelReady: true
-    property real contentPreferredWidth: 380 * Style.uiScaleRatio
-    property real contentPreferredHeight: 470 * Style.uiScaleRatio
+    property real contentPreferredWidth: 420 * Style.uiScaleRatio
+    property real contentPreferredHeight: 490 * Style.uiScaleRatio
 
     property var topProcesses: []
+    property var runnersList: []
+
+    FileView {
+        id: runnersJsonView
+        path: pluginApi ? (pluginApi.pluginDir + "/runners.json") : ""
+        printErrors: false
+        watchChanges: false
+        onLoaded: {
+            try {
+                const parsed = JSON.parse(text());
+                root.runnersList = parsed.runners || [];
+            } catch(e) {}
+        }
+    }
 
     Process {
         id: psProc
@@ -194,7 +209,9 @@ Item {
 
                         NButton {
                             text: "Refresh"
-                            outlined: true
+                            outlined: false
+                            backgroundColor: Color.mSurface
+                            textColor: Color.mOnSurface
                             onClicked: root.refreshTopProcesses()
                         }
                     }
@@ -226,40 +243,74 @@ Item {
                 }
             }
 
-            // 4. Quick Switcher
-            Text {
-                text: "Quick Switch Runner"
-                font.pointSize: Style.fontSizeS
-                font.bold: true
-                color: Color.mOnSurface
-            }
-
+            // 4. Full Runner Gallery Horizontal Browser
             RowLayout {
                 Layout.fillWidth: true
+                Text {
+                    text: "Runner Gallery (" + root.runnersList.length + " Available)"
+                    font.pointSize: Style.fontSizeS
+                    font.bold: true
+                    color: Color.mOnSurface
+                    Layout.fillWidth: true
+                }
+                Text {
+                    text: "Scroll horizontally →"
+                    font.pointSize: Style.fontSizeXS
+                    color: Color.mOnSurfaceVariant
+                }
+            }
+
+            ListView {
+                id: runnerListView
+                Layout.fillWidth: true
+                Layout.preferredHeight: 74 * Style.uiScaleRatio
+                orientation: ListView.Horizontal
                 spacing: Style.marginS
+                clip: true
+                model: root.runnersList
 
-                readonly property var quickRunners: [
-                    { id: "pixel-cat", name: "Pixel Cat" },
-                    { id: "classic-cat", name: "Classic" },
-                    { id: "swift-bird", name: "Bird" },
-                    { id: "rubber-duck", name: "Duck" },
-                    { id: "frog", name: "Frog" }
-                ]
+                delegate: Rectangle {
+                    required property var modelData
+                    width: 80 * Style.uiScaleRatio
+                    height: 70 * Style.uiScaleRatio
+                    radius: Style.radiusM
+                    color: (mainInstance && mainInstance.runner === modelData.id) ? Qt.alpha(Color.mPrimary, 0.25) : Color.mSurfaceVariant
+                    border.color: (mainInstance && mainInstance.runner === modelData.id) ? Color.mPrimary : Qt.alpha(Color.mOutline, 0.5)
+                    border.width: (mainInstance && mainInstance.runner === modelData.id) ? 2 : 1
 
-                Repeater {
-                    model: parent.quickRunners
-                    delegate: NButton {
-                        required property var modelData
-                        text: modelData.name
-                        outlined: !(mainInstance && mainInstance.runner === modelData.id)
-                        backgroundColor: (mainInstance && mainInstance.runner === modelData.id) ? Color.mPrimary : Color.mSurface
-                        textColor: (mainInstance && mainInstance.runner === modelData.id) ? Color.mOnPrimary : Color.mOnSurface
-                        Layout.fillWidth: true
+                    ColumnLayout {
+                        anchors.centerIn: parent
+                        spacing: 4
+
+                        Image {
+                            width: 36 * Style.uiScaleRatio
+                            height: 26 * Style.uiScaleRatio
+                            fillMode: Image.PreserveAspectFit
+                            source: pluginApi ? pluginApi.pluginDir + "/runners/" + parent.parent.modelData.id + "/preview.png" : ""
+                            cache: true
+                            Layout.alignment: Qt.AlignHCenter
+                        }
+
+                        Text {
+                            text: parent.parent.modelData.displayName
+                            font.pointSize: Style.fontSizeXS * 0.85
+                            color: (mainInstance && mainInstance.runner === parent.parent.modelData.id) ? Color.mPrimary : Color.mOnSurface
+                            font.bold: (mainInstance && mainInstance.runner === parent.parent.modelData.id)
+                            elide: Text.ElideRight
+                            Layout.maximumWidth: 72 * Style.uiScaleRatio
+                            Layout.alignment: Qt.AlignHCenter
+                        }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
                         onClicked: {
                             if (pluginApi) {
-                                pluginApi.pluginSettings.runner = modelData.id;
+                                pluginApi.pluginSettings.runner = parent.modelData.id;
                                 pluginApi.saveSettings();
-                                if (mainInstance) mainInstance.applyRunnerMeta(modelData.id);
+                                if (mainInstance) mainInstance.applyRunnerMeta(parent.modelData.id);
                             }
                         }
                     }
@@ -276,7 +327,9 @@ Item {
                 NButton {
                     text: (mainInstance && mainInstance.paused) ? "Resume" : "Pause / Nap"
                     icon: (mainInstance && mainInstance.paused) ? "player-play" : "player-pause"
-                    outlined: true
+                    outlined: false
+                    backgroundColor: Color.mSurfaceVariant
+                    textColor: Color.mOnSurface
                     Layout.fillWidth: true
                     onClicked: {
                         if (mainInstance) mainInstance.paused = !mainInstance.paused;
@@ -287,10 +340,15 @@ Item {
                     text: "All Settings"
                     icon: "settings"
                     outlined: false
+                    backgroundColor: Color.mPrimary
+                    textColor: Color.mOnPrimary
                     Layout.fillWidth: true
                     onClicked: {
-                        if (pluginApi) {
-                            BarService.openPluginSettings(null, pluginApi.manifest);
+                        var targetScreen = root.screen || (parent && parent.screen) || (Quickshell.screens && Quickshell.screens.length > 0 ? Quickshell.screens[0] : null);
+                        if (pluginApi && targetScreen) {
+                            BarService.openPluginSettings(targetScreen, pluginApi.manifest);
+                        } else {
+                            Quickshell.execDetached(["qs", "-c", "noctalia-shell", "ipc", "call", "plugin", "openSettings", "noctacat"]);
                         }
                     }
                 }
