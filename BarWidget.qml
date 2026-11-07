@@ -30,12 +30,12 @@ Item {
     readonly property real catOffsetY: mainInstance ? mainInstance.catOffsetY : 0.0
 
     readonly property color resolvedCatColor: {
-        if (!mainInstance) return Color.mOnSurface;
+        if (!mainInstance) return "#FFFFFF";
         if (mainInstance.catColor === "rainbow") return mainInstance.currentRainbowColor;
         if (mainInstance.isTurbo || mainInstance.catColor === "error") return Color.mError;
         if (mainInstance.catColor === "primary") return Color.mPrimary;
         if (mainInstance.catColor === "secondary") return Color.mSecondary;
-        return mouseArea.containsMouse ? Color.mOnHover : Color.mOnSurface;
+        return mouseArea.containsMouse ? Color.mPrimary : "#FFFFFF";
     }
 
     readonly property string currentSpriteSource: {
@@ -62,7 +62,7 @@ Item {
         width: root.contentWidth
         height: root.contentHeight
         radius: Style.radiusL
-        color: mouseArea.containsMouse ? Color.mHover : (isTurbo ? Color.alpha(Color.mError, 0.15) : Style.capsuleColor)
+        color: mouseArea.containsMouse ? Color.mHover : (isTurbo ? Qt.alpha(Color.mError, 0.15) : Style.capsuleColor)
         border.color: isTurbo ? Color.mError : Style.capsuleBorderColor
         border.width: Style.capsuleBorderWidth
 
@@ -91,7 +91,7 @@ Item {
                     asynchronous: false
                     source: root.currentSpriteSource
 
-                    layer.enabled: Boolean(mainInstance && mainInstance.runnerType === "monochrome")
+                    layer.enabled: Boolean(mainInstance && mainInstance.runnerType === "monochrome" && root.resolvedCatColor !== "#FFFFFF")
                     layer.effect: MultiEffect {
                         colorization: 1.0
                         colorizationColor: root.resolvedCatColor

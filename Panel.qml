@@ -69,9 +69,11 @@ Item {
             // 1. Header with Runner Info & Designer Credit
             NBox {
                 Layout.fillWidth: true
+                implicitHeight: headerRow.implicitHeight + Style.marginM * 2
                 color: Color.mSurfaceVariant
 
                 RowLayout {
+                    id: headerRow
                     anchors.fill: parent
                     anchors.margins: Style.marginM
                     spacing: Style.marginM
@@ -109,7 +111,7 @@ Item {
 
                     Rectangle {
                         radius: Style.radiusM
-                        color: (mainInstance && mainInstance.isSleeping) ? Color.alpha(Color.mSecondary, 0.2) : ((mainInstance && mainInstance.isTurbo) ? Color.alpha(Color.mError, 0.2) : Color.alpha(Color.mPrimary, 0.2))
+                        color: (mainInstance && mainInstance.isSleeping) ? Qt.alpha(Color.mSecondary, 0.2) : ((mainInstance && mainInstance.isTurbo) ? Qt.alpha(Color.mError, 0.2) : Qt.alpha(Color.mPrimary, 0.2))
                         height: 26 * Style.uiScaleRatio
                         width: statusText.implicitWidth + Style.marginM * 2
 
@@ -128,9 +130,11 @@ Item {
             // 2. Telemetry Gauges Card
             NBox {
                 Layout.fillWidth: true
+                implicitHeight: telemetryGrid.implicitHeight + Style.marginM * 2
                 color: Color.mSurfaceVariant
 
                 GridLayout {
+                    id: telemetryGrid
                     anchors.fill: parent
                     anchors.margins: Style.marginM
                     columns: 3
@@ -169,9 +173,11 @@ Item {
             // 3. Process Radar (Top 3 Hogs)
             NBox {
                 Layout.fillWidth: true
+                implicitHeight: processCol.implicitHeight + Style.marginM * 2
                 color: Color.mSurfaceVariant
 
                 ColumnLayout {
+                    id: processCol
                     anchors.fill: parent
                     anchors.margins: Style.marginM
                     spacing: Style.marginS
@@ -188,6 +194,7 @@ Item {
 
                         NButton {
                             text: "Refresh"
+                            outlined: true
                             onClicked: root.refreshTopProcesses()
                         }
                     }
@@ -199,7 +206,7 @@ Item {
                             Layout.fillWidth: true
 
                             Text {
-                                text: modelData.name
+                                text: (modelData && modelData.name) ? modelData.name : ""
                                 font.pointSize: Style.fontSizeS
                                 font.family: Style.fontFamilyMonospace
                                 color: Color.mOnSurface
@@ -208,7 +215,7 @@ Item {
                             }
 
                             Text {
-                                text: modelData.cpu
+                                text: (modelData && modelData.cpu) ? modelData.cpu : ""
                                 font.pointSize: Style.fontSizeS
                                 font.family: Style.fontFamilyMonospace
                                 font.bold: true
@@ -244,7 +251,9 @@ Item {
                     delegate: NButton {
                         required property var modelData
                         text: modelData.name
-                        highlighted: Boolean(mainInstance && mainInstance.runner === modelData.id)
+                        outlined: !(mainInstance && mainInstance.runner === modelData.id)
+                        backgroundColor: (mainInstance && mainInstance.runner === modelData.id) ? Color.mPrimary : Color.mSurface
+                        textColor: (mainInstance && mainInstance.runner === modelData.id) ? Color.mOnPrimary : Color.mOnSurface
                         Layout.fillWidth: true
                         onClicked: {
                             if (pluginApi) {
@@ -267,6 +276,7 @@ Item {
                 NButton {
                     text: (mainInstance && mainInstance.paused) ? "Resume" : "Pause / Nap"
                     icon: (mainInstance && mainInstance.paused) ? "player-play" : "player-pause"
+                    outlined: true
                     Layout.fillWidth: true
                     onClicked: {
                         if (mainInstance) mainInstance.paused = !mainInstance.paused;
@@ -274,8 +284,9 @@ Item {
                 }
 
                 NButton {
-                    text: "All Runners & Settings"
+                    text: "All Settings"
                     icon: "settings"
+                    outlined: false
                     Layout.fillWidth: true
                     onClicked: {
                         if (pluginApi) {
